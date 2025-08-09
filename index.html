@@ -154,6 +154,36 @@
         .quick-reply-btn:hover, .gift-option-btn:hover {
             background-color: rgba(100, 116, 139, 0.6);
         }
+
+        /* --- DISCOVER PAGE --- */
+        .discover-group-card .secondary-btn {
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .discover-group-card:hover .secondary-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .progress-bar-container {
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 9999px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #fde047, #fbbf24);
+            transition: width 0.5s ease-in-out;
+        }
+        .epic-moment-card { position: relative; overflow: hidden; }
+        .epic-moment-card .playback-bar {
+            position: absolute;
+            bottom: 0; left: 0; height: 3px;
+            background-color: #fde047;
+            width: 0;
+            transition: width 0.3s linear;
+        }
+        .epic-moment-card:hover .playback-bar { width: 100%; }
     </style>
 </head>
 <body class="h-screen w-screen flex items-center justify-center winzo-bg text-white">
@@ -292,39 +322,115 @@
             </div>
 
             <div id="leaderboards-page" class="community-page hidden p-4 space-y-4">
-                <div class="pill-tab-container flex" id="leaderboards-scope-tabs"><div class="pill-tab-item active" data-tab="friends">Friends</div><div class="pill-tab-item" data-tab="local">Local</div><div class="pill-tab-item" data-tab="global">Global</div></div>
-                <div class="flex items-center justify-between space-x-2"><select class="w-full bg-slate-700/80 border-0 rounded-lg focus:ring-yellow-400"><option>All Games</option><option>Rummy</option><option>Ludo</option></select><div class="pill-tab-container flex text-sm flex-shrink-0" id="leaderboards-time-tabs"><div class="pill-tab-item active" data-tab="daily">Daily</div><div class="pill-tab-item" data-tab="weekly">Weekly</div></div></div>
-                <div class="space-y-2">
-                    <div class="card-bg p-2 rounded-lg flex items-center space-x-3"><span class="font-bold text-lg w-8 text-center">🥇</span><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><div><p class="font-semibold">AnshikaV</p><p class="text-xs text-gray-300"><i class="fas fa-crown text-yellow-400 text-xs mr-1"></i>Dragon League</p></div><p class="ml-auto font-bold highlight-text">₹2,530</p></div>
-                    <div class="card-bg p-2 rounded-lg flex items-center space-x-3"><span class="font-bold text-lg w-8 text-center">🥈</span><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><div><p class="font-semibold">SnehaP</p><p class="text-xs text-gray-300"><i class="fas fa-star text-orange-400 text-xs mr-1"></i>Gold League</p></div><p class="ml-auto font-bold highlight-text">₹1,890</p></div>
-                    <div class="card-bg p-2 rounded-lg flex items-center space-x-3"><span class="font-bold text-lg w-8 text-center">🥉</span><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><div><p class="font-semibold">MeeraG</p><p class="text-xs text-gray-300"><i class="fas fa-crown text-yellow-400 text-xs mr-1"></i>Dragon League</p></div><p class="ml-auto font-bold highlight-text">₹1,560</p></div>
-                    <div class="user-rank-highlight card-bg p-2 rounded-lg flex items-center space-x-3"><span class="font-bold text-lg w-8 text-center">15</span><div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/70"></i></div><div><p class="font-semibold">You</p><p class="text-xs text-gray-300"><i class="fas fa-wand-magic-sparkles text-pink-400 text-xs mr-1"></i>Unicorn League</p></div><p class="ml-auto font-bold highlight-text">₹450</p></div>
+                <div class="pill-tab-container flex" id="leaderboards-scope-tabs">
+                    <div class="pill-tab-item active" data-tab="friends">Friends</div>
+                    <div class="pill-tab-item" data-tab="local">Local</div>
+                    <div class="pill-tab-item" data-tab="global">Global</div>
+                </div>
+                <div class="flex items-center justify-between space-x-2">
+                    <select id="leaderboard-game-filter" class="w-full bg-slate-700/80 border-0 rounded-lg focus:ring-yellow-400">
+                        <option value="all">All Games</option>
+                        <option value="rummy">Rummy</option>
+                        <option value="ludo">Ludo</option>
+                    </select>
+                    <div class="pill-tab-container flex text-sm flex-shrink-0" id="leaderboards-time-tabs">
+                        <div class="pill-tab-item active" data-tab="daily">Daily</div>
+                        <div class="pill-tab-item" data-tab="weekly">Weekly</div>
+                    </div>
+                </div>
+                <div id="leaderboard-list" class="space-y-2">
+                    <!-- Leaderboard rows will be dynamically inserted here -->
+                </div>
+                <div id="my-rank-container">
+                    <!-- User's rank will be dynamically inserted here -->
                 </div>
                 <button id="view-my-rank-btn" class="w-full btn btn-blue mt-2">View My Rank</button>
             </div>
 
             <div id="discover-page" class="community-page hidden p-4 space-y-6">
+                 <!-- Section 1: Featured Groups -->
                 <section>
                     <h3 class="font-bold text-lg mb-2">Featured Groups</h3>
-                    <div class="flex space-x-4 overflow-x-auto no-scrollbar pb-2">
-                        <div class="card-bg rounded-xl p-3 w-40 flex-shrink-0 text-center"><i class="fas fa-trophy-alt text-yellow-400 text-3xl mb-2"></i><h4 class="font-bold">Rummy Champions</h4><p class="text-xs text-gray-400 mb-2">128 members</p><button class="btn btn-blue w-full text-sm py-1">Enter</button></div>
-                        <div class="card-bg rounded-xl p-3 w-40 flex-shrink-0 text-center"><i class="fas fa-hat-wizard text-purple-400 text-3xl mb-2"></i><h4 class="font-bold">Fantasy Fanatics</h4><p class="text-xs text-gray-400 mb-2">2.3k members</p><button class="btn btn-green w-full text-sm py-1">Join</button></div>
-                        <div class="card-bg rounded-xl p-3 w-40 flex-shrink-0 text-center"><i class="fas fa-dice text-sky-400 text-3xl mb-2"></i><h4 class="font-bold">Ludo Legends</h4><p class="text-xs text-gray-400 mb-2">42 members</p<button class="btn btn-blue w-full text-sm py-1">Enter</button></div>
+                    <div id="discover-featured-groups" class="flex space-x-4 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
+                        <!-- Group cards will be injected here -->
                     </div>
                 </section>
+
+                <!-- Section 2: Community Events -->
                 <section>
                     <h3 class="font-bold text-lg mb-2">Community Events</h3>
-                    <div class="rounded-xl p-4 flex flex-col justify-end h-32 bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://placehold.co/600x200/2563eb/fde047?text=EVENT')"><h4 class="text-xl font-bold">Weekly Ludo Tournament</h4><p class="text-sm font-semibold highlight-text">Prize Pool: ₹10,000</p><button class="btn btn-orange w-full mt-2">Register Now</button></div>
+                    <div class="relative rounded-xl p-4 flex flex-col justify-between h-48 bg-cover bg-center text-white shadow-lg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent 60%), url('https://placehold.co/600x200/2563eb/fde047?text=TOURNAMENT');">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-xl font-bold">Weekly Ludo Tournament</h4>
+                                <p class="text-sm font-semibold highlight-text">Prize Pool: ₹10,000</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs">Starts In:</p>
+                                <p id="event-countdown" class="font-bold text-lg highlight-text">00:00:00</p>
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            <div id="event-mini-leaderboard" class="text-xs mb-2">
+                                <!-- Mini leaderboard injected here -->
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button class="btn btn-orange w-full">Register Now</button>
+                                <button class="btn bg-slate-700/80 px-3"><i class="fas fa-share-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
                 </section>
+                
+                <!-- Section 3: Player Spotlight -->
                 <section>
-                     <h3 class="font-bold text-lg mb-2">Player Spotlight</h3>
-                     <div class="card-bg rounded-xl p-4 flex items-center space-x-4"><div class="w-20 h-20 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-5xl text-yellow-300/60"></i></div><div><p class="text-sm font-semibold">Player of the Week: <span class="highlight-text">RaviK</span></p><p class="text-xs text-gray-300 italic">"Just keep playing, have fun, and the wins will come!"</p></div></div>
+                    <h3 class="font-bold text-lg mb-2">Player Spotlight</h3>
+                    <div class="card-bg rounded-xl p-4 flex items-center space-x-4">
+                        <div class="w-20 h-20 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0 border-2 border-yellow-400">
+                            <i class="fas fa-user-secret text-5xl text-yellow-400/80"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-bold text-lg">AryanJ</p>
+                            <p class="text-xs text-gray-300">Player of the Week</p>
+                            <p class="text-sm mt-1">🔥 12 Win Streak | 🚀 Best Score: 5,430</p>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <button class="btn btn-green text-xs px-2 py-1">Challenge</button>
+                            <button id="follow-player-btn" class="btn btn-blue text-xs px-2 py-1">Follow</button>
+                        </div>
+                    </div>
                 </section>
+
+                <!-- Section 4: Game Hubs -->
                 <section>
                     <h3 class="font-bold text-lg mb-2">Game Hubs</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="rounded-xl p-4 h-24 flex items-center justify-center font-bold text-lg bg-red-600">Free Fire Zone</div>
-                        <div class="rounded-xl p-4 h-24 flex items-center justify-center font-bold text-lg bg-green-600">Ludo Lounge</div>
+                        <div class="card-bg rounded-xl p-3 space-y-2">
+                            <h4 class="font-bold text-lg text-center">Rummy Hub</h4>
+                            <div class="progress-bar-container h-2">
+                                <div id="rummy-hub-progress" class="progress-bar h-full" style="width: 75%;"></div>
+                            </div>
+                            <p class="text-xs text-center text-gray-300">Community Goal: 75% complete!</p>
+                            <p class="text-xs text-center text-gray-400 italic">Tip: "Discard high cards early."</p>
+                            <button class="btn btn-blue w-full text-xs mt-1">View Hub</button>
+                        </div>
+                        <div class="card-bg rounded-xl p-3 space-y-2">
+                            <h4 class="font-bold text-lg text-center">Ludo Lounge</h4>
+                            <div class="progress-bar-container h-2">
+                                <div id="ludo-hub-progress" class="progress-bar h-full" style="width: 42%;"></div>
+                            </div>
+                            <p class="text-xs text-center text-gray-300">Community Goal: 42% complete!</p>
+                            <p class="text-xs text-center text-gray-400 italic">Tip: "Always have a piece ready."</p>
+                            <button class="btn btn-blue w-full text-xs mt-1">View Hub</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Epic Moments -->
+                <section>
+                    <h3 class="font-bold text-lg mb-2">Epic Moments</h3>
+                    <div id="epic-moments-feed" class="flex space-x-4 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
+                        <!-- Epic moment cards injected here -->
                     </div>
                 </section>
             </div>
@@ -439,6 +545,7 @@
             
             function renderCelebrateFeed() {
                 const feedContainer = document.getElementById('celebrate-feed');
+                if (!feedContainer) return;
                 feedContainer.innerHTML = celebrateFeedData.map(post => `
                     <div class="card-bg p-4 rounded-xl space-y-3" data-post-id="${post.id}" data-username="${post.user}">
                         <div class="flex items-center space-x-3">
@@ -472,9 +579,10 @@
             // --- Page Navigation ---
             function showPage(pageId) {
                 document.querySelectorAll('.community-page').forEach(page => page.classList.add('hidden'));
-                document.getElementById(pageId)?.classList.remove('hidden');
+                const newPage = document.getElementById(pageId);
+                if (newPage) newPage.classList.remove('hidden');
                 
-                document.querySelector('main').scrollTop = 0;
+                newPage?.parentElement.scrollTo(0, 0);
 
                 document.querySelectorAll('.nav-item').forEach(item => {
                     item.classList.toggle('active', item.dataset.page === pageId);
@@ -490,8 +598,15 @@
                     document.getElementById('create-group-header-btn')?.addEventListener('click', () => openModal(modals.createGroup));
                 } else if (pageId === 'celebrate-page') {
                      headerActions.innerHTML = bellIconHTML;
-                     renderCelebrateFeed(); // Always render the feed to ensure content is present
-                } else {
+                     renderCelebrateFeed(); // FIX: Always render celebrate feed when page is shown
+                } else if (pageId === 'leaderboards-page') {
+                    headerActions.innerHTML = bellIconHTML;
+                    initLeaderboard();
+                } else if (pageId === 'discover-page') {
+                     headerActions.innerHTML = bellIconHTML;
+                     initDiscoverPage();
+                }
+                else {
                     headerActions.innerHTML = bellIconHTML;
                 }
             }
@@ -502,7 +617,7 @@
             
 
             // --- Generic Tab Switching Logic ---
-            function setupTabs(containerId, contentClass) {
+            function setupTabs(containerId, contentClass, callback) {
                 const tabContainer = document.getElementById(containerId);
                 if (!tabContainer) return;
                 
@@ -512,18 +627,17 @@
 
                     tabContainer.querySelector('.active')?.classList.remove('active');
                     tab.classList.add('active');
-
-                    const tabContentId = tab.dataset.tab;
-                    tab.closest('.community-page, .modal-content')?.querySelectorAll(`.${contentClass}`).forEach(content => {
-                        content.classList.toggle('hidden', content.id !== tabContentId);
-                    });
+                    
+                    if (callback) {
+                        callback(tab.dataset.tab);
+                    } else {
+                         const tabContentId = tab.dataset.tab;
+                         tab.closest('.community-page, .modal-content')?.querySelectorAll(`.${contentClass}`).forEach(content => {
+                            content.classList.toggle('hidden', content.id !== tabContentId);
+                        });
+                    }
                 });
             }
-
-            setupTabs('groups-tabs', 'groups-tab-content');
-            setupTabs('leaderboards-scope-tabs', 'leaderboard-scope-content');
-            setupTabs('leaderboards-time-tabs', 'leaderboard-time-content');
-
 
             // --- Modal Handling ---
             let currentCard = null; // Store the card being interacted with
@@ -673,12 +787,6 @@
                  }
             });
 
-
-            // --- Leaderboards Page Logic ---
-            document.getElementById('view-my-rank-btn')?.addEventListener('click', () => {
-                document.querySelector('.user-rank-highlight')?.scrollIntoView({ behavior: 'smooth' });
-            });
-            
              // Wager and game selection logic
             document.getElementById('wager-selection')?.addEventListener('click', (e) => {
                 const button = e.target.closest('.wager-btn');
@@ -713,6 +821,7 @@
                 });
             }
             populateCreateGroupFriends();
+            setupTabs('groups-tabs', 'groups-tab-content');
             
             const groupNameContainer = document.getElementById('group-name-container');
             const createGroupActionBtn = document.getElementById('create-group-action-btn');
@@ -829,6 +938,297 @@
             });
 
 
+            // --- LEADERBOARDS PAGE LOGIC ---
+            let isLeaderboardInitialized = false;
+            let leaderboardState = {
+                scope: 'friends',
+                time: 'daily',
+                game: 'all'
+            };
+
+            const getLeaderboardData = () => {
+                // This is a dummy data generator. In a real app, this would be an API call.
+                const data = {
+                    friends: {
+                        daily: {
+                            all: [{ rank: 1, name: 'AnshikaV', league: 'Dragon', winnings: 85 }, { rank: 2, name: 'SnehaP', league: 'Gold', winnings: 60 }, { rank: 3, name: 'MeeraG', league: 'Dragon', winnings: 45 }, { rank: 15, name: 'You', league: 'Unicorn', winnings: 15, isUser: true },],
+                            rummy: [{ rank: 1, name: 'AnshikaV', league: 'Dragon', winnings: 70 }, { rank: 2, name: 'RaviK', league: 'Wolf', winnings: 55 }, { rank: 12, name: 'You', league: 'Unicorn', winnings: 20, isUser: true },],
+                            ludo: [{ rank: 1, name: 'SnehaP', league: 'Gold', winnings: 90 }, { rank: 2, name: 'MeeraG', league: 'Dragon', winnings: 75 }, { rank: 25, name: 'You', league: 'Unicorn', winnings: 10, isUser: true },],
+                        },
+                        weekly: {
+                            all: [{ rank: 1, name: 'AnshikaV', league: 'Dragon', winnings: 850 }, { rank: 2, name: 'SnehaP', league: 'Gold', winnings: 720 }, { rank: 3, name: 'RaviK', league: 'Wolf', winnings: 650 }, { rank: 15, name: 'You', league: 'Unicorn', winnings: 450, isUser: true }],
+                            rummy: [{ rank: 1, name: 'RaviK', league: 'Wolf', winnings: 950 }, { rank: 2, name: 'AnshikaV', league: 'Dragon', winnings: 800 }, { rank: 22, name: 'You', league: 'Unicorn', winnings: 300, isUser: true }],
+                            ludo: [{ rank: 1, name: 'SnehaP', league: 'Gold', winnings: 980 }, { rank: 2, name: 'AryanJ', league: 'Wolf', winnings: 850 }, { rank: 18, name: 'You', league: 'Unicorn', winnings: 420, isUser: true }],
+                        }
+                    },
+                    local: {
+                        daily: {
+                            all: [
+                                { rank: 1, name: 'RajatM', league: 'Master', winnings: 98 },
+                                { rank: 2, name: 'PriyaK', league: 'Master', winnings: 95 },
+                                { rank: 3, name: 'VikramS', league: 'Dragon', winnings: 92 },
+                                { rank: 4, name: 'AaravP', league: 'Dragon', winnings: 88 },
+                                { rank: 5, name: 'IshaN', league: 'Unicorn', winnings: 85 },
+                                { rank: 89, name: 'You', league: 'Unicorn', winnings: 15, isUser: true }
+                            ]
+                        },
+                        weekly: {
+                            all: [
+                                { rank: 1, name: 'RajatM', league: 'Master', winnings: 980 },
+                                { rank: 2, name: 'PriyaK', league: 'Master', winnings: 950 },
+                                { rank: 3, name: 'VikramS', league: 'Dragon', winnings: 910 },
+                                { rank: 4, name: 'KaranV', league: 'Dragon', winnings: 880 },
+                                { rank: 5, name: 'IshaN', league: 'Unicorn', winnings: 850 },
+                                { rank: 150, name: 'You', league: 'Unicorn', winnings: 450, isUser: true }
+                            ]
+                        }
+                    },
+                    global: {
+                        daily: {
+                            all: [
+                                { rank: 1, name: 'ShadowStrike', league: 'Legend', winnings: 99 },
+                                { rank: 2, name: 'PhoenixRider', league: 'Legend', winnings: 98 },
+                                { rank: 3, name: 'CyberNinja', league: 'Legend', winnings: 98 },
+                                { rank: 4, name: 'ViperX', league: 'Master', winnings: 97 },
+                                { rank: 5, name: 'Blaze', league: 'Master', winnings: 96 },
+                                { rank: 6, name: 'Titan', league: 'Master', winnings: 95 },
+                                { rank: 7, name: 'Mystic', league: 'Dragon', winnings: 94 },
+                                { rank: 1250, name: 'You', league: 'Unicorn', winnings: 15, isUser: true }
+                            ]
+                        },
+                        weekly: {
+                            all: [
+                                { rank: 1, name: 'ShadowStrike', league: 'Legend', winnings: 995 },
+                                { rank: 2, name: 'PhoenixRider', league: 'Legend', winnings: 990 },
+                                { rank: 3, name: 'Omega', league: 'Legend', winnings: 985 },
+                                { rank: 4, name: 'CyberNinja', league: 'Master', winnings: 980 },
+                                { rank: 5, name: 'ViperX', league: 'Master', winnings: 975 },
+                                { rank: 6, name: 'Titan', league: 'Master', winnings: 970 },
+                                { rank: 7, name: 'Mystic', league: 'Dragon', winnings: 965 },
+                                { rank: 2800, name: 'You', league: 'Unicorn', winnings: 450, isUser: true }
+                            ]
+                        }
+                    }
+                };
+                // Fill missing game data with 'all' data for simplicity
+                ['local', 'global'].forEach(scope => {
+                    ['daily', 'weekly'].forEach(time => {
+                        data[scope][time].rummy = data[scope][time].all.map(p => ({...p, winnings: Math.floor(p.winnings * 0.8) }));
+                        data[scope][time].ludo = data[scope][time].all.map(p => ({...p, winnings: Math.floor(p.winnings * 0.7) }));
+                    });
+                });
+
+                return data[leaderboardState.scope][leaderboardState.time][leaderboardState.game];
+            };
+
+            function renderLeaderboard() {
+                const data = getLeaderboardData();
+                const listContainer = document.getElementById('leaderboard-list');
+                const myRankContainer = document.getElementById('my-rank-container');
+                const viewMyRankBtn = document.getElementById('view-my-rank-btn');
+
+                if (!listContainer || !myRankContainer) return;
+                
+                let listHTML = '';
+                let myRankHTML = '';
+                const userRankData = data.find(p => p.isUser);
+                
+                const topPlayers = data.filter(p => !p.isUser).slice(0, 10); // Show top 10 non-user players
+
+                topPlayers.forEach(player => {
+                    const medal = player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : player.rank;
+                    listHTML += `
+                        <div class="card-bg p-2 rounded-lg flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-grow">
+                                <span class="font-bold text-lg w-8 text-center">${medal}</span>
+                                <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div>
+                                <div>
+                                    <p class="font-semibold">${player.name}</p>
+                                    <p class="text-xs text-gray-300"><i class="fas fa-star text-orange-400 text-xs mr-1"></i>${player.league} League</p>
+                                </div>
+                            </div>
+                            <p class="font-bold highlight-text text-right flex-shrink-0">₹${player.winnings.toLocaleString()}</p>
+                        </div>
+                    `;
+                });
+                
+                listContainer.innerHTML = listHTML || '<p class="text-center text-gray-400 py-4">No data available for this view.</p>';
+
+                if (userRankData) {
+                    const medal = userRankData.rank === 1 ? '🥇' : userRankData.rank === 2 ? '🥈' : userRankData.rank === 3 ? '🥉' : userRankData.rank;
+                    myRankHTML = `
+                         <div class="user-rank-highlight card-bg p-2 rounded-lg flex items-center justify-between">
+                            <div class="flex items-center space-x-3 flex-grow">
+                                <span class="font-bold text-lg w-8 text-center">${medal}</span>
+                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/70"></i></div>
+                                <div>
+                                    <p class="font-semibold">You</p>
+                                    <p class="text-xs text-gray-300"><i class="fas fa-wand-magic-sparkles text-pink-400 text-xs mr-1"></i>${userRankData.league} League</p>
+                                </div>
+                            </div>
+                             <p class="font-bold highlight-text text-right flex-shrink-0">₹${userRankData.winnings.toLocaleString()}</p>
+                        </div>`;
+                    viewMyRankBtn.classList.remove('hidden');
+                } else {
+                    viewMyRankBtn.classList.add('hidden');
+                }
+                myRankContainer.innerHTML = myRankHTML;
+            }
+
+            function initLeaderboard() {
+                if (isLeaderboardInitialized) {
+                    renderLeaderboard(); // Just re-render if already initialized
+                    return;
+                }
+                
+                setupTabs('leaderboards-scope-tabs', null, (tab) => {
+                    leaderboardState.scope = tab;
+                    renderLeaderboard();
+                });
+                setupTabs('leaderboards-time-tabs', null, (tab) => {
+                    leaderboardState.time = tab;
+                    renderLeaderboard();
+                });
+
+                document.getElementById('leaderboard-game-filter')?.addEventListener('change', (e) => {
+                    leaderboardState.game = e.target.value;
+                    renderLeaderboard();
+                });
+
+                document.getElementById('view-my-rank-btn')?.addEventListener('click', () => {
+                    document.querySelector('.user-rank-highlight')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+                
+                renderLeaderboard();
+                isLeaderboardInitialized = true;
+            }
+
+            // --- DISCOVER PAGE LOGIC ---
+            let isDiscoverInitialized = false;
+            let discoverIntervals = [];
+
+            function initDiscoverPage() {
+                if(isDiscoverInitialized) return;
+
+                renderFeaturedGroups();
+                renderEpicMoments();
+                startEventCountdown();
+                startLiveUpdates();
+
+                document.getElementById('discover-page').addEventListener('click', e => {
+                    if (e.target.id === 'follow-player-btn') {
+                        const btn = e.target;
+                        btn.textContent = btn.textContent === 'Follow' ? 'Following' : 'Follow';
+                        btn.classList.toggle('btn-blue');
+                        btn.classList.toggle('btn-red');
+                    }
+                });
+                
+                isDiscoverInitialized = true;
+            }
+
+            function clearDiscoverIntervals() {
+                discoverIntervals.forEach(clearInterval);
+                discoverIntervals = [];
+            }
+            
+            function renderFeaturedGroups() {
+                const container = document.getElementById('discover-featured-groups');
+                const groups = [
+                    { name: "Rummy Champions", members: 12, active: 5, topGame: "Rummy", wins: 320, icon: "fa-trophy" },
+                    { name: "Ludo Legends", members: 42, active: 11, topGame: "Ludo", wins: 150, icon: "fa-dice" },
+                    { name: "Fantasy Fanatics", members: 2300, active: 450, topGame: "Fantasy", wins: 1280, icon: "fa-hat-wizard" },
+                    { name: "PUBG Warriors", members: 89, active: 22, topGame: "BGMI", wins: 55, icon: "fa-gamepad" }
+                ];
+                container.innerHTML = groups.map(g => `
+                    <div class="card-bg rounded-xl p-3 w-48 flex-shrink-0 space-y-2 relative overflow-hidden discover-group-card">
+                        <div class="flex items-center space-x-2">
+                             <div class="w-10 h-10 rounded-full bg-slate-700/50 flex items-center justify-center flex-shrink-0">
+                                <i class="fas ${g.icon} text-yellow-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">${g.name}</h4>
+                                <p class="text-xs text-gray-400">${g.members.toLocaleString()} Members</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-300"><i class="fas fa-users text-green-400"></i> <span class="active-now-count">${g.active}</span> Active Now</p>
+                        <p class="text-xs text-gray-300"><i class="fas fa-crown text-yellow-400"></i> Top Game: ${g.topGame}</p>
+                        <div class="flex items-center space-x-2">
+                             <button class="btn btn-green w-full text-xs py-1">Join</button>
+                             <button class="btn btn-orange text-xs py-1 secondary-btn">Play</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function renderEpicMoments() {
+                 const container = document.getElementById('epic-moments-feed');
+                 const moments = [
+                    { user: "SnehaP", group: "Ludo Legends", game: "Ludo" },
+                    { user: "RaviK", group: "Rummy Champions", game: "Rummy" },
+                    { user: "AryanJ", group: "PUBG Warriors", game: "BGMI" },
+                    { user: "MeeraG", group: "Ludo Legends", game: "Ludo" },
+                 ];
+                 container.innerHTML = moments.map(m => `
+                    <div class="card-bg rounded-xl w-32 h-48 flex-shrink-0 flex flex-col justify-between p-2 text-white bg-cover bg-center epic-moment-card" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent 50%), url('https://placehold.co/200x300/e879f9/ffffff?text=${m.game}')">
+                        <p class="text-xs font-bold">${m.user}</p>
+                        <div class="space-y-1">
+                            <button class="btn bg-black/30 w-full text-xs py-1 backdrop-blur-sm">🔥 1.2k</button>
+                            <button class="btn btn-blue w-full text-xs py-1">Try Mode</button>
+                        </div>
+                        <div class="playback-bar"></div>
+                    </div>
+                 `).join('');
+            }
+            
+            function startEventCountdown() {
+                const countdownEl = document.getElementById('event-countdown');
+                if (!countdownEl) return;
+                let duration = 2 * 3600 + 15 * 60 + 32; // 2h 15m 32s
+
+                const interval = setInterval(() => {
+                    duration--;
+                    if (duration < 0) {
+                        clearInterval(interval);
+                        countdownEl.textContent = "Started!";
+                        return;
+                    }
+                    const h = Math.floor(duration / 3600).toString().padStart(2, '0');
+                    const m = Math.floor((duration % 3600) / 60).toString().padStart(2, '0');
+                    const s = (duration % 60).toString().padStart(2, '0');
+                    countdownEl.textContent = `${h}:${m}:${s}`;
+                }, 1000);
+                discoverIntervals.push(interval);
+            }
+
+            function startLiveUpdates() {
+                const interval = setInterval(() => {
+                    // Update Featured Groups Active Count
+                    document.querySelectorAll('.active-now-count').forEach(el => {
+                        let current = parseInt(el.textContent);
+                        el.textContent = Math.max(1, current + (Math.random() > 0.5 ? 1 : -1));
+                    });
+                    
+                    // Update Event Mini Leaderboard
+                    const miniLeaderboard = document.getElementById('event-mini-leaderboard');
+                    const scores = [1520, 1480, 1450];
+                    miniLeaderboard.innerHTML = `
+                        <span>🥇 Shadow: ${scores[0]}</span> 
+                        <span>🥈 Viper: ${scores[1]}</span> 
+                        <span>🥉 Blaze: ${scores[2]}</span>`;
+
+                    // Update Game Hub Progress
+                    const rummyProgress = document.getElementById('rummy-hub-progress');
+                    const ludoProgress = document.getElementById('ludo-hub-progress');
+                    let rummyWidth = parseFloat(rummyProgress.style.width) + 0.1;
+                    if(rummyWidth > 100) rummyWidth = 75;
+                    rummyProgress.style.width = rummyWidth + '%';
+                    rummyProgress.parentElement.nextElementSibling.textContent = `Community Goal: ${Math.round(rummyWidth)}% complete!`;
+
+                }, 2000); // Update every 2 seconds for demo
+                discoverIntervals.push(interval);
+            }
+            
             showPage('friends-page'); // Initial page load
         });
     </script>
