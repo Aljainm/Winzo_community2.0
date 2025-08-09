@@ -27,10 +27,10 @@
         }
         .mobile-screen {
             width: 360px;
-            height: 800px;
+            height: 640px; /* Reduced height to ensure footer is visible */
             margin: auto;
             display: grid;
-            grid-template-rows: auto 1fr auto;
+            grid-template-rows: auto 1fr auto; /* Header, Main (scrollable), Footer (fixed) */
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
@@ -39,16 +39,32 @@
         .nav-item.active { color: #fde047; }
         .nav-item.active .nav-icon { transform: translateY(-2px); transition: transform 0.2s ease-in-out; }
         
-        .inner-tab-item {
+        .pill-tab-container {
+            background-color: rgba(30, 27, 75, 0.8);
+            border-radius: 9999px;
+            padding: 0.25rem;
+        }
+        .pill-tab-item {
             padding: 0.5rem 1rem;
             border-radius: 9999px;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s, color 0.2s;
+            flex: 1;
+            text-align: center;
         }
-        .inner-tab-item.active {
+        .pill-tab-item.active {
             background-color: #fde047;
             color: #1e1b4b;
+            box-shadow: 0 2px 8px rgba(253, 224, 71, 0.3);
+        }
+        .highlight-text {
+            color: #fde047;
+            font-weight: 700;
+        }
+        .user-rank-highlight {
+            background-color: rgba(253, 224, 71, 0.1);
+            border: 1px solid #fde047;
         }
 
         /* --- GRADIENT BUTTONS --- */
@@ -62,18 +78,10 @@
             transition: transform 0.1s ease;
         }
         .btn:active { transform: scale(0.98); }
-        .btn-green {
-            background: linear-gradient(90deg, #4ade80 0%, #16a34a 100%);
-            border-bottom: 3px solid #15803d;
-        }
-        .btn-orange {
-            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-            border-bottom: 3px solid #d97706;
-        }
-        .btn-red {
-            background: linear-gradient(90deg, #f87171 0%, #dc2626 100%);
-            border-bottom: 3px solid #b91c1c;
-        }
+        .btn-green { background: linear-gradient(90deg, #4ade80 0%, #16a34a 100%); border-bottom: 3px solid #15803d; }
+        .btn-orange { background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%); border-bottom: 3px solid #d97706; }
+        .btn-red { background: linear-gradient(90deg, #f87171 0%, #dc2626 100%); border-bottom: 3px solid #b91c1c; }
+        .btn-blue { background: linear-gradient(90deg, #60a5fa 0%, #2563eb 100%); border-bottom: 3px solid #1d4ed8; }
         
         /* Wager Button Style from reference */
         .wager-btn {
@@ -88,9 +96,7 @@
             color: #4c1d95;
             box-shadow: 0 0 15px rgba(250, 204, 21, 0.6);
         }
-        .wager-btn.selected span {
-            color: #4c1d95;
-        }
+        .wager-btn.selected span { color: #4c1d95; }
         .game-choice-btn {
             background-color: rgba(71, 85, 105, 0.3);
             border: 1px solid rgba(100, 116, 139, 0.5);
@@ -106,23 +112,15 @@
 
     <div class="mobile-screen winzo-bg">
 
-        <header class="flex items-center justify-between p-4 bg-gradient-to-b from-purple-900/50 to-transparent shadow-lg z-10">
-            <div class="flex items-center space-x-3">
-                 <!-- Changed Avatar -->
-                 <img src="https://i.imgur.com/8b2434A.png" class="w-10 h-10 rounded-full object-cover">
-                <div class="flex flex-col text-sm">
-                    <div class="flex items-center space-x-1">
-                        <i class="fas fa-gem text-yellow-300"></i>
-                        <span>1200</span>
-                    </div>
-                    <div class="flex items-center space-x-1">
-                        <i class="fas fa-wallet text-green-400"></i>
-                        <span>₹500</span>
-                    </div>
+        <header class="flex items-center justify-between p-4 bg-gradient-to-b from-purple-900/50 to-transparent shadow-lg z-10 flex-shrink-0">
+            <div class="flex items-center space-x-3 w-1/4">
+                <div class="flex-col text-sm hidden sm:flex">
+                    <div class="flex items-center space-x-1"><i class="fas fa-gem text-yellow-300"></i><span>1200</span></div>
+                    <div class="flex items-center space-x-1"><i class="fas fa-wallet text-green-400"></i><span>₹500</span></div>
                 </div>
             </div>
             <div id="section-title" class="flex-1 text-center font-bold text-lg">FRIENDS</div>
-            <div class="flex items-center space-x-4">
+            <div id="header-actions" class="w-1/4 flex justify-end items-center space-x-4">
                 <div class="relative">
                     <i class="fas fa-bell text-xl text-white"></i>
                     <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
@@ -132,19 +130,14 @@
 
         <main class="overflow-y-auto min-h-0 no-scrollbar">
 
-            <div id="friends-page" class="community-page !p-0">
-                <!-- Top Profile Section -->
-                <div class="relative" style="background: linear-gradient(180deg, rgba(90, 48, 156, 0.2) 0%, rgba(30, 27, 75, 0) 100%);">
-                    <div class="absolute top-4 right-4 z-10">
-                        <button class="text-white/80 hover:text-white transition-colors"><i class="fas fa-cog text-2xl"></i></button>
-                    </div>
-
+            <div id="friends-page" class="community-page">
+                <!-- Friends Page content remains the same -->
+                 <div class="relative" style="background: linear-gradient(180deg, rgba(90, 48, 156, 0.2) 0%, rgba(30, 27, 75, 0) 100%);">
+                    <div class="absolute top-4 right-4 z-10"><button class="text-white/80 hover:text-white transition-colors"><i class="fas fa-cog text-2xl"></i></button></div>
                     <div class="flex flex-col items-center p-4 pt-10 text-center">
-                        <!-- Changed Avatar -->
-                        <img src="https://i.imgur.com/8b2434A.png" alt="User Avatar" class="w-24 h-24 rounded-full mb-3 border-4 border-yellow-300/50 object-cover">
+                        <div class="w-24 h-24 rounded-full mb-3 border-4 border-yellow-300/50 bg-slate-800 flex items-center justify-center"><i class="fas fa-user text-5xl text-yellow-300/70"></i></div>
                         <h2 class="text-2xl font-bold">Atharva Lokhande</h2>
                         <p class="text-gray-400 text-sm">@AtharvaLokhande • Joined April 2019</p>
-
                         <div class="flex justify-around items-center text-center my-5 w-full max-w-sm">
                             <div><p class="font-bold text-xl">1,250</p><p class="text-xs text-gray-400">Games Played</p></div>
                             <div class="border-l border-gray-700 h-8"></div>
@@ -152,8 +145,6 @@
                             <div class="border-l border-gray-700 h-8"></div>
                             <div><p class="font-bold text-xl">63</p><p class="text-xs text-gray-400">Followers</p></div>
                         </div>
-
-                         <!-- Action Buttons -->
                         <div class="card-bg flex justify-around items-center text-center py-4 my-2 w-full max-w-sm rounded-xl border border-slate-700">
                             <button id="qr-code-btn" class="flex flex-col items-center text-yellow-300 space-y-1 w-1/3"><i class="fas fa-qrcode text-2xl"></i><span class="text-xs font-semibold">QR Code</span></button>
                             <button id="invite-link-btn" class="flex flex-col items-center text-yellow-300 space-y-1 w-1/3"><i class="fas fa-link text-2xl"></i><span class="text-xs font-semibold">Invite Link</span></button>
@@ -161,91 +152,77 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Main Content -->
                 <div class="p-4 space-y-6">
-                    <section>
-                        <h3 class="text-xl font-bold mb-3">Overview</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-fire text-3xl text-orange-500"></i><div><p class="font-bold text-lg">12</p><p class="text-sm text-gray-400">Win Streak</p></div></div>
-                            <div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-trophy text-3xl text-yellow-400"></i><div><p class="font-bold text-lg">₹58,169</p><p class="text-sm text-gray-400">Total Winnings</p></div></div>
-                            <div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-wand-magic-sparkles text-3xl text-pink-400"></i><div><p class="font-bold text-lg">Unicorn</p><p class="text-sm text-gray-400">Current League</p></div></div>
-                            <div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-dice-d6 text-3xl text-sky-400"></i><div><p class="font-bold text-lg">Rummy</p><p class="text-sm text-gray-400">Favorite Game</p></div></div>
-                        </div>
-                    </section>
-                     <section>
-                        <h3 class="text-lg font-semibold mb-3">Friend Missions</h3>
-                        <!-- Duo Challenge Updated -->
-                        <button id="duo-challenge-btn" class="w-full card-bg p-4 rounded-xl shadow-md text-left hover:bg-slate-700/80 transition-colors duration-200">
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center space-x-4">
-                                    <i class="fas fa-users-cog text-yellow-300 text-3xl"></i>
-                                    <div>
-                                        <h4 class="font-bold text-lg">Weekly Duo Challenge</h4>
-                                        <p class="text-sm text-gray-300">Team up with AnshikaV for rewards!</p>
-                                    </div>
-                                </div>
-                                <i class="fas fa-chevron-right text-gray-400"></i>
-                            </div>
-                            <div class="w-full bg-slate-900 rounded-full h-4 mt-3 border border-slate-600">
-                                <div class="bg-gradient-to-r from-green-400 to-blue-500 h-full rounded-full flex items-center justify-center" style="width: 80%">
-                                    <span class="text-xs font-bold text-slate-900">16 / 20 Games</span>
-                                </div>
-                            </div>
-                        </button>
-                    </section>
-                    <section class="mb-6">
-                        <h3 class="text-lg font-semibold mb-3">My Friends List</h3>
-                        <!-- Updated friends list -->
-                        <div id="friends-list-container" class="space-y-3">
-                            <div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between" data-friend-name="AnshikaV">
-                                <div class="flex items-center space-x-3"><div class="relative"><img src="https://placehold.co/48x48/FFD700/000000?text=AV" alt="Avatar" class="w-12 h-12 rounded-full"><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">AnshikaV</h4><p class="text-sm text-gray-300"><i class="fas fa-crown text-yellow-400 text-xs mr-1"></i>Dragon League</p><p class="text-xs text-green-400">Playing Rummy</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div>
-                            </div>
-                            <div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between" data-friend-name="AryanJ">
-                                <div class="flex items-center space-x-3"><div class="relative"><img src="https://placehold.co/48x48/ADD8E6/000000?text=AJ" alt="Avatar" class="w-12 h-12 rounded-full"><div class="absolute bottom-0 right-0 w-3 h-3 bg-gray-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">AryanJ</h4><p class="text-sm text-gray-300"><i class="fas fa-shield-alt text-blue-400 text-xs mr-1"></i>Wolf League</p><p class="text-xs text-gray-500">Last active 3h ago</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div>
-                            </div>
-                            <!-- Added more friends, initially hidden -->
-                            <div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between hidden friend-item" data-friend-name="SnehaP">
-                                <div class="flex items-center space-x-3"><div class="relative"><img src="https://placehold.co/48x48/fbcfe8/000000?text=SP" alt="Avatar" class="w-12 h-12 rounded-full"><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">SnehaP</h4><p class="text-sm text-gray-300"><i class="fas fa-star text-orange-400 text-xs mr-1"></i>Gold League</p><p class="text-xs text-green-400">Playing Ludo</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div>
-                            </div>
-                             <div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between hidden friend-item" data-friend-name="RaviK">
-                                <div class="flex items-center space-x-3"><div class="relative"><img src="https://placehold.co/48x48/fca5a5/000000?text=RK" alt="Avatar" class="w-12 h-12 rounded-full"><div class="absolute bottom-0 right-0 w-3 h-3 bg-gray-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">RaviK</h4><p class="text-sm text-gray-300"><i class="fas fa-shield-alt text-blue-400 text-xs mr-1"></i>Wolf League</p><p class="text-xs text-gray-500">Last active 1d ago</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div>
-                            </div>
-                             <div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between hidden friend-item" data-friend-name="MeeraG">
-                                <div class="flex items-center space-x-3"><div class="relative"><img src="https://placehold.co/48x48/a78bfa/000000?text=MG" alt="Avatar" class="w-12 h-12 rounded-full"><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">MeeraG</h4><p class="text-sm text-gray-300"><i class="fas fa-crown text-yellow-400 text-xs mr-1"></i>Dragon League</p><p class="text-xs text-green-400">Playing Snakes</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div>
-                            </div>
-                        </div>
-                        <!-- Added Show More button -->
-                        <button id="show-more-friends-btn" class="w-full text-center py-2 mt-3 text-yellow-300 font-semibold rounded-lg hover:bg-slate-700/50 transition-colors">Show More <i class="fas fa-chevron-down ml-1 text-xs"></i></button>
-                    </section>
+                    <section><h3 class="text-xl font-bold mb-3">Overview</h3><div class="grid grid-cols-2 gap-4"><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-fire text-3xl text-orange-500"></i><div><p class="font-bold text-lg">12</p><p class="text-sm text-gray-400">Win Streak</p></div></div><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-trophy text-3xl text-yellow-400"></i><div><p class="font-bold text-lg">₹58,169</p><p class="text-sm text-gray-400">Total Winnings</p></div></div><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-wand-magic-sparkles text-3xl text-pink-400"></i><div><p class="font-bold text-lg">Unicorn</p><p class="text-sm text-gray-400">Current League</p></div></div><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-dice-d6 text-3xl text-sky-400"></i><div><p class="font-bold text-lg">Rummy</p><p class="text-sm text-gray-400">Favorite Game</p></div></div></div></section>
+                     <section><h3 class="text-lg font-semibold mb-3">Friend Missions</h3><button id="duo-challenge-btn" class="w-full card-bg p-4 rounded-xl shadow-md text-left hover:bg-slate-700/80 transition-colors duration-200"><div class="flex justify-between items-center"><div class="flex items-center space-x-4"><i class="fas fa-users-cog text-yellow-300 text-3xl"></i><div><h4 class="font-bold text-lg">Weekly Duo Challenge</h4><p class="text-sm text-gray-300">Team up with AnshikaV for rewards!</p></div></div><i class="fas fa-chevron-right text-gray-400"></i></div><div class="w-full bg-slate-900 rounded-full h-4 mt-3 border border-slate-600"><div class="bg-gradient-to-r from-green-400 to-blue-500 h-full rounded-full flex items-center justify-center" style="width: 80%"><span class="text-xs font-bold text-slate-900">16 / 20 Games</span></div></div></button></section>
+                    <section class="mb-6"><h3 class="text-lg font-semibold mb-3">My Friends List</h3><div id="friends-list-container" class="space-y-3"><div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between" data-friend-name="AnshikaV"><div class="flex items-center space-x-3"><div class="relative"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">AnshikaV</h4><p class="text-sm text-gray-300"><i class="fas fa-crown text-yellow-400 text-xs mr-1"></i>Dragon League</p><p class="text-xs text-green-400">Playing Rummy</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div></div><div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between" data-friend-name="AryanJ"><div class="flex items-center space-x-3"><div class="relative"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div class="absolute bottom-0 right-0 w-3 h-3 bg-gray-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">AryanJ</h4><p class="text-sm text-gray-300"><i class="fas fa-shield-alt text-blue-400 text-xs mr-1"></i>Wolf League</p><p class="text-xs text-gray-500">Last active 3h ago</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div></div><div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between hidden friend-item" data-friend-name="SnehaP"><div class="flex items-center space-x-3"><div class="relative"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">SnehaP</h4><p class="text-sm text-gray-300"><i class="fas fa-star text-orange-400 text-xs mr-1"></i>Gold League</p><p class="text-xs text-green-400">Playing Ludo</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div></div><div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between hidden friend-item" data-friend-name="RaviK"><div class="flex items-center space-x-3"><div class="relative"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div class="absolute bottom-0 right-0 w-3 h-3 bg-gray-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">RaviK</h4><p class="text-sm text-gray-300"><i class="fas fa-shield-alt text-blue-400 text-xs mr-1"></i>Wolf League</p><p class="text-xs text-gray-500">Last active 1d ago</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div></div><div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between hidden friend-item" data-friend-name="MeeraG"><div class="flex items-center space-x-3"><div class="relative"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">MeeraG</h4><p class="text-sm text-gray-300"><i class="fas fa-crown text-yellow-400 text-xs mr-1"></i>Dragon League</p><p class="text-xs text-green-400">Playing Snakes</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div></div></div><button id="show-more-friends-btn" class="w-full text-center py-2 mt-3 text-yellow-300 font-semibold rounded-lg hover:bg-slate-700/50 transition-colors">Show More <i class="fas fa-chevron-down ml-1 text-xs"></i></button></section>
                 </div>
             </div>
 
-            <!-- Other pages restored -->
-            <div id="groups-page" class="community-page hidden p-4 text-center">
-                <i class="fas fa-users text-5xl text-yellow-300/50 my-10"></i>
-                <h2 class="text-2xl font-bold">Groups</h2>
-                <p class="text-gray-400 mt-4">Create groups, chat with friends, and plan your next game together!</p>
+            <div id="groups-page" class="community-page hidden p-4 space-y-4">
+                <div class="pill-tab-container flex" id="groups-tabs">
+                    <div class="pill-tab-item active" data-tab="my-groups">My Groups</div>
+                    <div class="pill-tab-item" data-tab="discover-groups">Discover</div>
+                </div>
+                <div id="my-groups" class="groups-tab-content space-y-3">
+                    <div class="card-bg p-3 rounded-xl flex items-center justify-between"><div class="flex items-center space-x-3"><i class="fas fa-trophy text-yellow-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Rummy Champions</h4><p class="text-xs text-gray-300">128 members</p><p class="text-xs text-green-400">New challenge started!</p></div></div><button class="btn btn-blue px-4 py-2">Enter</button></div>
+                    <div class="card-bg p-3 rounded-xl flex items-center justify-between"><div class="flex items-center space-x-3"><i class="fas fa-dice text-sky-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Ludo Legends</h4><p class="text-xs text-gray-300">42 members</p><p class="text-xs text-gray-400">Last message: 2h ago</p></div></div><button class="btn btn-blue px-4 py-2">Enter</button></div>
+                </div>
+                <div id="discover-groups" class="groups-tab-content hidden space-y-3">
+                    <div class="card-bg p-3 rounded-xl flex items-center justify-between"><div class="flex items-center space-x-3"><i class="fas fa-hat-wizard text-purple-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Fantasy Fanatics</h4><p class="text-xs text-gray-300">2,300 members</p><p class="text-xs text-gray-400">For fans of fantasy sports</p></div></div><button class="btn btn-green px-4 py-2">Join</button></div>
+                    <div class="card-bg p-3 rounded-xl flex items-center justify-between"><div class="flex items-center space-x-3"><i class="fas fa-puzzle-piece text-orange-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Puzzle Masters</h4><p class="text-xs text-gray-300">512 members</p><p class="text-xs text-gray-400">Daily puzzles and challenges</p></div></div><button class="btn btn-green px-4 py-2">Join</button></div>
+                </div>
             </div>
-            <div id="celebrate-page" class="community-page hidden p-4 text-center">
-                <i class="fas fa-trophy text-5xl text-yellow-300/50 my-10"></i>
-                <h2 class="text-2xl font-bold">Celebrate</h2>
-                <p class="text-gray-400 mt-4">Check out your biggest wins and achievements here.</p>
+
+            <div id="celebrate-page" class="community-page hidden p-4 space-y-4">
+                <div class="card-bg p-3 rounded-xl"><input type="text" class="w-full bg-transparent border-0 focus:ring-0 text-white placeholder-gray-400" placeholder="Share your achievement..."></div>
+                <div class="space-y-4">
+                    <div class="card-bg p-4 rounded-xl space-y-3"><div class="flex items-center space-x-3"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div><p class="font-semibold">SnehaP won <span class="highlight-text">₹500</span> in Rummy!</p><p class="text-xs text-gray-400">1h ago</p></div></div><div class="border-t border-slate-700 flex justify-around pt-2 text-gray-400"><button class="like-btn flex items-center space-x-1 hover:text-red-500"><i class="far fa-heart"></i><span class="like-count text-xs">12</span></button><button class="flex items-center space-x-1 hover:text-yellow-300"><i class="far fa-comment-dots"></i><span class="text-xs">3</span></button><button class="hover:text-yellow-300"><i class="fas fa-gift"></i></button><button class="hover:text-yellow-300"><i class="fas fa-gamepad"></i></button></div></div>
+                    <div class="card-bg p-4 rounded-xl space-y-3"><div class="flex items-center space-x-3"><div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-3xl text-yellow-300/70"></i></div><div><p class="font-semibold">Just hit a <span class="highlight-text">15-game</span> win streak! 🔥</p><p class="text-xs text-gray-400">3h ago</p></div></div><div class="border-t border-slate-700 flex justify-around pt-2 text-gray-400"><button class="like-btn flex items-center space-x-1 hover:text-red-500"><i class="far fa-heart"></i><span class="like-count text-xs">45</span></button><button class="flex items-center space-x-1 hover:text-yellow-300"><i class="far fa-comment-dots"></i><span class="text-xs">8</span></button><button class="hover:text-yellow-300"><i class="fas fa-gift"></i></button><button class="hover:text-yellow-300"><i class="fas fa-share-alt"></i></button></div></div>
+                </div>
             </div>
-            <div id="leaderboards-page" class="community-page hidden p-4 text-center">
-                <i class="fas fa-chart-bar text-5xl text-yellow-300/50 my-10"></i>
-                <h2 class="text-2xl font-bold">Leaderboards</h2>
-                <p class="text-gray-400 mt-4">See how you rank against other players.</p>
+
+            <div id="leaderboards-page" class="community-page hidden p-4 space-y-4">
+                <div class="pill-tab-container flex" id="leaderboards-scope-tabs"><div class="pill-tab-item active" data-tab="friends">Friends</div><div class="pill-tab-item" data-tab="local">Local</div><div class="pill-tab-item" data-tab="global">Global</div></div>
+                <div class="flex items-center justify-between space-x-2"><select class="w-full bg-slate-700/80 border-0 rounded-lg focus:ring-yellow-400"><option>All Games</option><option>Rummy</option><option>Ludo</option></select><div class="pill-tab-container flex text-sm flex-shrink-0" id="leaderboards-time-tabs"><div class="pill-tab-item active" data-tab="daily">Daily</div><div class="pill-tab-item" data-tab="weekly">Weekly</div></div></div>
+                <div class="space-y-2">
+                    <div class="card-bg p-2 rounded-lg flex items-center space-x-3"><span class="font-bold text-lg w-8 text-center">🥇</span><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><div><p class="font-semibold">AnshikaV</p><p class="text-xs text-gray-300"><i class="fas fa-crown text-yellow-400 text-xs mr-1"></i>Dragon League</p></div><p class="ml-auto font-bold highlight-text">₹2,530</p></div>
+                    <div class="card-bg p-2 rounded-lg flex items-center space-x-3"><span class="font-bold text-lg w-8 text-center">🥈</span><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><div><p class="font-semibold">SnehaP</p><p class="text-xs text-gray-300"><i class="fas fa-star text-orange-400 text-xs mr-1"></i>Gold League</p></div><p class="ml-auto font-bold highlight-text">₹1,890</p></div>
+                    <div class="card-bg p-2 rounded-lg flex items-center space-x-3"><span class="font-bold text-lg w-8 text-center">🥉</span><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><div><p class="font-semibold">MeeraG</p><p class="text-xs text-gray-300"><i class="fas fa-crown text-yellow-400 text-xs mr-1"></i>Dragon League</p></div><p class="ml-auto font-bold highlight-text">₹1,560</p></div>
+                    <div class="user-rank-highlight card-bg p-2 rounded-lg flex items-center space-x-3"><span class="font-bold text-lg w-8 text-center">15</span><div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/70"></i></div><div><p class="font-semibold">You</p><p class="text-xs text-gray-300"><i class="fas fa-wand-magic-sparkles text-pink-400 text-xs mr-1"></i>Unicorn League</p></div><p class="ml-auto font-bold highlight-text">₹450</p></div>
+                </div>
+                <button id="view-my-rank-btn" class="w-full btn btn-blue mt-2">View My Rank</button>
             </div>
-            <div id="discover-page" class="community-page hidden p-4 text-center">
-                <i class="fas fa-compass text-5xl text-yellow-300/50 my-10"></i>
-                <h2 class="text-2xl font-bold">Discover</h2>
-                <p class="text-gray-400 mt-4">Find new friends and communities to join.</p>
+
+            <div id="discover-page" class="community-page hidden p-4 space-y-6">
+                <section>
+                    <h3 class="font-bold text-lg mb-2">Featured Groups</h3>
+                    <div class="flex space-x-4 overflow-x-auto no-scrollbar pb-2">
+                        <div class="card-bg rounded-xl p-3 w-40 flex-shrink-0 text-center"><i class="fas fa-trophy-alt text-yellow-400 text-3xl mb-2"></i><h4 class="font-bold">Rummy Champions</h4><p class="text-xs text-gray-400 mb-2">128 members</p><button class="btn btn-blue w-full text-sm py-1">Enter</button></div>
+                        <div class="card-bg rounded-xl p-3 w-40 flex-shrink-0 text-center"><i class="fas fa-hat-wizard text-purple-400 text-3xl mb-2"></i><h4 class="font-bold">Fantasy Fanatics</h4><p class="text-xs text-gray-400 mb-2">2.3k members</p><button class="btn btn-green w-full text-sm py-1">Join</button></div>
+                        <div class="card-bg rounded-xl p-3 w-40 flex-shrink-0 text-center"><i class="fas fa-dice text-sky-400 text-3xl mb-2"></i><h4 class="font-bold">Ludo Legends</h4><p class="text-xs text-gray-400 mb-2">42 members</p><button class="btn btn-blue w-full text-sm py-1">Enter</button></div>
+                    </div>
+                </section>
+                <section>
+                    <h3 class="font-bold text-lg mb-2">Community Events</h3>
+                    <div class="rounded-xl p-4 flex flex-col justify-end h-32 bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://placehold.co/600x200/2563eb/fde047?text=EVENT')"><h4 class="text-xl font-bold">Weekly Ludo Tournament</h4><p class="text-sm font-semibold highlight-text">Prize Pool: ₹10,000</p><button class="btn btn-orange w-full mt-2">Register Now</button></div>
+                </section>
+                <section>
+                     <h3 class="font-bold text-lg mb-2">Player Spotlight</h3>
+                     <div class="card-bg rounded-xl p-4 flex items-center space-x-4"><div class="w-20 h-20 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-5xl text-yellow-300/60"></i></div><div><p class="text-sm font-semibold">Player of the Week: <span class="highlight-text">RaviK</span></p><p class="text-xs text-gray-300 italic">"Just keep playing, have fun, and the wins will come!"</p></div></div>
+                </section>
+                <section>
+                    <h3 class="font-bold text-lg mb-2">Game Hubs</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="rounded-xl p-4 h-24 flex items-center justify-center font-bold text-lg bg-red-600">Free Fire Zone</div>
+                        <div class="rounded-xl p-4 h-24 flex items-center justify-center font-bold text-lg bg-green-600">Ludo Lounge</div>
+                    </div>
+                </section>
             </div>
 
         </main>
 
-        <footer class="flex items-center justify-around p-3 bg-gradient-to-t from-black/50 to-transparent flex-shrink-0">
+        <footer class="flex items-center justify-around p-3 bg-gradient-to-t from-black/50 to-transparent flex-shrink-0 shadow-inner">
             <button class="nav-item flex flex-col items-center w-1/5 active" data-page="friends-page"><i class="fas fa-user-friends text-xl nav-icon"></i><span class="text-xs mt-1 font-semibold">Friends</span></button>
             <button class="nav-item flex flex-col items-center text-gray-400 w-1/5" data-page="groups-page"><i class="fas fa-users text-xl nav-icon"></i><span class="text-xs mt-1">Groups</span></button>
             <button class="nav-item flex flex-col items-center text-gray-400 w-1/5" data-page="celebrate-page"><i class="fas fa-trophy text-xl nav-icon"></i><span class="text-xs mt-1">Celebrate</span></button>
@@ -256,144 +233,153 @@
         <!-- MODALS -->
         <div id="qr-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 text-center w-full max-w-xs flex flex-col items-center border-2 border-yellow-400/50"><h3 class="text-xl font-bold mb-4 text-yellow-300">My Winzo QR Code</h3><img id="qr-code-img" src="" alt="QR Code" class="w-48 h-48 rounded-lg bg-white p-2 mb-4"><p class="text-gray-300 text-sm mb-6">Scan this code to add me as a friend.</p><button id="close-qr-modal-btn" class="btn btn-orange w-full">Close</button></div></div>
         <div id="invite-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 text-center w-full max-w-xs flex flex-col items-center border-2 border-yellow-400/50"><h3 class="text-xl font-bold mb-6 text-yellow-300">Invite via...</h3><div class="grid grid-cols-3 gap-y-4 gap-x-2 w-full mb-6"><a href="#" class="flex flex-col items-center space-y-1 text-white hover:text-yellow-300"><i class="fab fa-whatsapp text-4xl text-green-500"></i><span class="text-xs">WhatsApp</span></a><a href="#" class="flex flex-col items-center space-y-1 text-white hover:text-yellow-300"><i class="fab fa-instagram text-4xl" style="color: #E4405F;"></i><span class="text-xs">Instagram</span></a><a href="#" class="flex flex-col items-center space-y-1 text-white hover:text-yellow-300"><i class="fab fa-facebook text-4xl text-blue-600"></i><span class="text-xs">Facebook</span></a><a href="#" class="flex flex-col items-center space-y-1 text-white hover:text-yellow-300"><i class="fab fa-telegram text-4xl text-sky-500"></i><span class="text-xs">Telegram</span></a><a href="#" class="flex flex-col items-center space-y-1 text-white hover:text-yellow-300"><i class="fas fa-copy text-4xl text-gray-400"></i><span class="text-xs">Copy Link</span></a><a href="#" class="flex flex-col items-center space-y-1 text-white hover:text-yellow-300"><i class="fas fa-ellipsis-h text-4xl text-gray-400"></i><span class="text-xs">More</span></a></div><button id="close-invite-modal-btn" class="btn btn-orange w-full">Close</button></div></div>
-        <div id="requests-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col items-center border-2 border-yellow-400/50"><h3 class="text-xl font-bold mb-4 text-yellow-300">Friend Requests</h3><div id="requests-list" class="space-y-3 w-full max-h-64 overflow-y-auto no-scrollbar"><div class="request-item flex items-center justify-between bg-slate-800/50 p-2 rounded-lg"><div class="flex items-center space-x-3"><img src="https://placehold.co/40x40/f9a8d4/1e1b4b?text=P" class="w-10 h-10 rounded-full"><span class="font-semibold">PriyaS</span></div><div class="flex space-x-2"><button class="btn btn-green text-xs px-3 py-1">Accept</button><button class="btn btn-red text-xs px-3 py-1">Decline</button></div></div><div class="request-item flex items-center justify-between bg-slate-800/50 p-2 rounded-lg"><div class="flex items-center space-x-3"><img src="https://placehold.co/40x40/a5b4fc/1e1b4b?text=R" class="w-10 h-10 rounded-full"><span class="font-semibold">RohanV</span></div><div class="flex space-x-2"><button class="btn btn-green text-xs px-3 py-1">Accept</button><button class="btn btn-red text-xs px-3 py-1">Decline</button></div></div><div class="request-item flex items-center justify-between bg-slate-800/50 p-2 rounded-lg"><div class="flex items-center space-x-3"><img src="https://placehold.co/40x40/fcd34d/1e1b4b?text=A" class="w-10 h-10 rounded-full"><span class="font-semibold">AmanJ</span></div><div class="flex space-x-2"><button class="btn btn-green text-xs px-3 py-1">Accept</button><button class="btn btn-red text-xs px-3 py-1">Decline</button></div></div><div class="request-item flex items-center justify-between bg-slate-800/50 p-2 rounded-lg"><div class="flex items-center space-x-3"><img src="https://placehold.co/40x40/86efac/1e1b4b?text=S" class="w-10 h-10 rounded-full"><span class="font-semibold">SunitaM</span></div><div class="flex space-x-2"><button class="btn btn-green text-xs px-3 py-1">Accept</button><button class="btn btn-red text-xs px-3 py-1">Decline</button></div></div><div class="request-item flex items-center justify-between bg-slate-800/50 p-2 rounded-lg"><div class="flex items-center space-x-3"><img src="https://placehold.co/40x40/fdba74/1e1b4b?text=V" class="w-10 h-10 rounded-full"><span class="font-semibold">VikramP</span></div><div class="flex space-x-2"><button class="btn btn-green text-xs px-3 py-1">Accept</button><button class="btn btn-red text-xs px-3 py-1">Decline</button></div></div></div><div id="no-requests-msg" class="hidden text-gray-400 mt-4">No new friend requests.</div><button id="close-requests-modal-btn" class="btn btn-orange w-full mt-6">Close</button></div></div>
-
-        <!-- Duo Challenge Modal Updated -->
+        <div id="requests-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col items-center border-2 border-yellow-400/50"><h3 class="text-xl font-bold mb-4 text-yellow-300">Friend Requests</h3><div id="requests-list" class="space-y-3 w-full max-h-64 overflow-y-auto no-scrollbar"><div class="request-item flex items-center justify-between bg-slate-800/50 p-2 rounded-lg"><div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><span class="font-semibold">PriyaS</span></div><div class="flex space-x-2"><button class="btn btn-green text-xs px-3 py-1">Accept</button><button class="btn btn-red text-xs px-3 py-1">Decline</button></div></div><div class="request-item flex items-center justify-between bg-slate-800/50 p-2 rounded-lg"><div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><span class="font-semibold">RohanV</span></div><div class="flex space-x-2"><button class="btn btn-green text-xs px-3 py-1">Accept</button><button class="btn btn-red text-xs px-3 py-1">Decline</button></div></div><div class="request-item flex items-center justify-between bg-slate-800/50 p-2 rounded-lg"><div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><span class="font-semibold">AmanJ</span></div><div class="flex space-x-2"><button class="btn btn-green text-xs px-3 py-1">Accept</button><button class="btn btn-red text-xs px-3 py-1">Decline</button></div></div><div class="request-item flex items-center justify-between bg-slate-800/50 p-2 rounded-lg"><div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><span class="font-semibold">SunitaM</span></div><div class="flex space-x-2"><button class="btn btn-green text-xs px-3 py-1">Accept</button><button class="btn btn-red text-xs px-3 py-1">Decline</button></div></div><div class="request-item flex items-center justify-between bg-slate-800/50 p-2 rounded-lg"><div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-xl text-yellow-300/60"></i></div><span class="font-semibold">VikramP</span></div><div class="flex space-x-2"><button class="btn btn-green text-xs px-3 py-1">Accept</button><button class="btn btn-red text-xs px-3 py-1">Decline</button></div></div></div><div id="no-requests-msg" class="hidden text-gray-400 mt-4">No new friend requests.</div><button id="close-requests-modal-btn" class="btn btn-orange w-full mt-6">Close</button></div></div>
         <div id="duo-challenge-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50"><div class="flex justify-between items-start mb-4"><h3 class="text-xl font-bold text-yellow-300 leading-tight">Weekly Duo Challenge<br>with AnshikaV</h3><button id="close-duo-challenge-modal-btn" class="text-2xl text-gray-400 hover:text-white">&times;</button></div><p class="text-gray-300 text-sm mb-4 text-center">Team up for the week! Play a total of 20 games combined to earn a special reward.</p><div class="w-full bg-slate-900 rounded-full h-4 mt-2 border border-slate-600 mb-4"><div class="bg-gradient-to-r from-green-400 to-blue-500 h-full rounded-full flex items-center justify-center" style="width: 80%"><span class="text-xs font-bold text-slate-900">16 / 20 Games</span></div></div><div class="bg-slate-800/50 p-3 rounded-lg text-center"><p class="font-semibold text-green-400">Complete the challenge and you both win ₹20 Bonus Cash!</p></div></div></div>
-
-        <!-- Play Game Modal Updated -->
         <div id="play-game-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50"><h3 id="play-game-modal-title" class="text-xl font-bold mb-4 text-center text-yellow-300">Play with Friend</h3><div class="w-full mb-5"><h4 class="font-semibold text-gray-300 text-sm mb-2">Choose Game</h4><div id="game-selection" class="grid grid-cols-3 gap-2"><button class="game-choice-btn p-2 rounded-lg selected">Rummy</button><button class="game-choice-btn p-2 rounded-lg">Ludo</button><button class="game-choice-btn p-2 rounded-lg">Snakes</button></div></div><div class="w-full mb-6"><h4 class="font-semibold text-gray-300 text-sm mb-3 text-center">Choose Entry Amount</h4><div id="wager-selection" class="flex justify-around items-center"><button class="wager-btn selected w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹2</p></button><button class="wager-btn w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹5</p></button><button class="wager-btn w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹10</p></button><button class="wager-btn w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹25</p></button></div></div><button class="btn btn-green w-full font-bold py-3">PLAY NOW</button><button id="close-play-game-modal-btn" class="text-gray-400 text-sm mt-4">Cancel</button></div></div>
-        
-        <!-- Chat Modal -->
         <div id="chat-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50"><h3 id="chat-modal-title" class="text-xl font-bold mb-4 text-yellow-300">Chat with Friend</h3><div class="bg-slate-900/50 rounded-lg p-3 h-48 mb-4 flex items-end"><p class="text-gray-400 text-sm">No messages yet...</p></div><div class="grid grid-cols-2 gap-2 mb-4"><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Hey, let's play Ludo!</button><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Wanna team up?</button><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Good game!</button><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Rematch?</button></div><button id="close-chat-modal-btn" class="btn btn-orange w-full mt-2">Close</button></div></div>
-
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Page navigation
-            const navItems = document.querySelectorAll('.nav-item');
-            const pages = document.querySelectorAll('.community-page');
             const sectionTitle = document.getElementById('section-title');
+            const headerActions = document.getElementById('header-actions');
             
+            // --- Page Navigation ---
             function showPage(pageId) {
-                pages.forEach(page => page.classList.add('hidden'));
-                const activePage = document.getElementById(pageId);
-                if (activePage) activePage.classList.remove('hidden');
+                document.querySelectorAll('.community-page').forEach(page => page.classList.add('hidden'));
+                document.getElementById(pageId)?.classList.remove('hidden');
                 
-                const mainContainer = activePage.closest('main');
-                if (mainContainer) mainContainer.scrollTop = 0;
+                document.querySelector('main').scrollTop = 0;
 
-                navItems.forEach(item => {
-                    item.classList.remove('active', 'text-gray-400');
-                    if (item.dataset.page === pageId) {
-                        item.classList.add('active');
-                    } else {
-                        item.classList.add('text-gray-400');
-                    }
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.toggle('active', item.dataset.page === pageId);
+                    item.classList.toggle('text-gray-400', item.dataset.page !== pageId);
                 });
+
                 const titleEl = document.querySelector(`.nav-item[data-page="${pageId}"] span`);
-                if(titleEl) sectionTitle.textContent = titleEl.textContent.toUpperCase();
+                sectionTitle.textContent = titleEl ? titleEl.textContent.toUpperCase() : 'WINZO';
+
+                // Update header actions based on page
+                headerActions.innerHTML = ''; // Clear previous actions
+                const bellIcon = `<div class="relative"><i class="fas fa-bell text-xl text-white"></i><span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span></div>`;
+
+                if (pageId === 'groups-page') {
+                    headerActions.innerHTML = `<button class="btn btn-blue text-xs px-3 py-1 flex items-center space-x-1"><i class="fas fa-plus"></i><span>Create</span></button>`;
+                } else {
+                    headerActions.innerHTML = bellIcon;
+                }
             }
             
-            navItems.forEach(item => item.addEventListener('click', () => showPage(item.dataset.page)));
-            
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => showPage(item.dataset.page));
+            });
             showPage('friends-page'); // Initial page
 
-            // Modal handling
-            const qrModal = document.getElementById('qr-modal');
-            const inviteModal = document.getElementById('invite-modal');
-            const requestsModal = document.getElementById('requests-modal');
-            const duoChallengeModal = document.getElementById('duo-challenge-modal');
-            const playGameModal = document.getElementById('play-game-modal');
-            const chatModal = document.getElementById('chat-modal');
+            // --- Generic Tab Switching Logic ---
+            function setupTabs(containerId, contentClass) {
+                const tabContainer = document.getElementById(containerId);
+                if (!tabContainer) return;
+                
+                tabContainer.addEventListener('click', (e) => {
+                    const tab = e.target.closest('.pill-tab-item');
+                    if (!tab || tab.classList.contains('active')) return;
+
+                    const activeTab = tabContainer.querySelector('.active');
+                    activeTab.classList.remove('active');
+                    tab.classList.add('active');
+
+                    const tabContentId = tab.dataset.tab;
+                    tab.closest('.community-page').querySelectorAll(`.${contentClass}`).forEach(content => {
+                        content.classList.toggle('hidden', content.id !== tabContentId);
+                    });
+                });
+            }
+
+            setupTabs('groups-tabs', 'groups-tab-content');
+            setupTabs('leaderboards-scope-tabs', 'leaderboard-scope-content'); // Placeholder for future use
+            setupTabs('leaderboards-time-tabs', 'leaderboard-time-content'); // Placeholder for future use
+
+
+            // --- Modal Handling ---
+            const modals = {
+                qr: document.getElementById('qr-modal'),
+                invite: document.getElementById('invite-modal'),
+                requests: document.getElementById('requests-modal'),
+                duo: document.getElementById('duo-challenge-modal'),
+                play: document.getElementById('play-game-modal'),
+                chat: document.getElementById('chat-modal'),
+            };
+            const openModal = (modal) => modal?.classList.remove('hidden');
+            const closeModal = (modal) => modal?.classList.add('hidden');
             
-            const openModal = (modal) => modal.classList.remove('hidden');
-            const closeModal = (modal) => modal.classList.add('hidden');
-            
-            // --- Event Listeners for Opening Modals ---
-            document.getElementById('qr-code-btn').addEventListener('click', () => {
-                const dummyData = 'https://winzo.com/invite/AtharvaLokhande';
-                document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(dummyData)}`;
-                openModal(qrModal);
+            document.getElementById('qr-code-btn')?.addEventListener('click', () => {
+                document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://winzo.com/invite/AtharvaLokhande')}`;
+                openModal(modals.qr);
             });
-            document.getElementById('invite-link-btn').addEventListener('click', () => openModal(inviteModal));
-            document.getElementById('requests-btn').addEventListener('click', () => openModal(requestsModal));
-            document.getElementById('duo-challenge-btn').addEventListener('click', () => openModal(duoChallengeModal));
+            document.getElementById('invite-link-btn')?.addEventListener('click', () => openModal(modals.invite));
+            document.getElementById('requests-btn')?.addEventListener('click', () => openModal(modals.requests));
+            document.getElementById('duo-challenge-btn')?.addEventListener('click', () => openModal(modals.duo));
             
-            // --- Event Listeners for Closing Modals ---
-            const closeButtons = document.querySelectorAll('#close-qr-modal-btn, #close-invite-modal-btn, #close-requests-modal-btn, #close-play-game-modal-btn, #close-chat-modal-btn');
-            const allModals = [qrModal, inviteModal, requestsModal, duoChallengeModal, playGameModal, chatModal];
-            
-            closeButtons.forEach(btn => btn.addEventListener('click', () => allModals.forEach(closeModal)));
-            // Close modal by clicking the X button inside duo challenge modal
-            document.getElementById('close-duo-challenge-modal-btn').addEventListener('click', () => closeModal(duoChallengeModal));
+            document.querySelectorAll('[id^="close-"]').forEach(btn => {
+                btn.addEventListener('click', () => Object.values(modals).forEach(closeModal));
+            });
+            Object.values(modals).forEach(modal => modal?.addEventListener('click', (e) => e.target === modal && closeModal(modal)));
 
-            allModals.forEach(modal => modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal(modal);
-            }));
 
-            // --- Friends List Interaction (Play & Chat) ---
-            document.getElementById('friends-page').addEventListener('click', (e) => {
-                const playBtn = e.target.closest('.play-game-btn');
-                const chatBtn = e.target.closest('.chat-btn');
+            // --- Page-Specific Logic ---
+            document.getElementById('friends-page')?.addEventListener('click', (e) => {
                 const friendItem = e.target.closest('[data-friend-name]');
-
                 if (!friendItem) return;
                 const friendName = friendItem.dataset.friendName;
 
-                if (playBtn) {
+                if (e.target.closest('.play-game-btn')) {
                     document.getElementById('play-game-modal-title').textContent = `Play with ${friendName}`;
-                    openModal(playGameModal);
-                } else if (chatBtn) {
+                    openModal(modals.play);
+                } else if (e.target.closest('.chat-btn')) {
                     document.getElementById('chat-modal-title').textContent = `Chat with ${friendName}`;
-                    openModal(chatModal);
+                    openModal(modals.chat);
                 }
             });
 
-            // --- Play Game Modal Logic ---
-            const gameSelection = document.getElementById('game-selection');
-            gameSelection.addEventListener('click', (e) => {
-                if(e.target.tagName === 'BUTTON'){
-                    gameSelection.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
-                    e.target.classList.add('selected');
-                }
+            document.getElementById('show-more-friends-btn')?.addEventListener('click', (e) => {
+                document.querySelectorAll('#friends-list-container .friend-item.hidden').forEach(item => item.classList.remove('hidden'));
+                e.target.style.display = 'none';
             });
-            const wagerSelection = document.getElementById('wager-selection');
-            wagerSelection.addEventListener('click', (e) => {
-                const wagerBtn = e.target.closest('.wager-btn');
-                if (wagerBtn) {
-                    wagerSelection.querySelectorAll('.wager-btn').forEach(btn => btn.classList.remove('selected'));
-                    wagerBtn.classList.add('selected');
+
+            document.getElementById('celebrate-page')?.addEventListener('click', e => {
+                const likeBtn = e.target.closest('.like-btn');
+                if(!likeBtn) return;
+
+                const heartIcon = likeBtn.querySelector('i');
+                const countSpan = likeBtn.querySelector('.like-count');
+                const isLiked = heartIcon.classList.contains('fas');
+                let count = parseInt(countSpan.textContent);
+                
+                heartIcon.classList.toggle('far', isLiked);
+                heartIcon.classList.toggle('fas', !isLiked);
+                heartIcon.classList.toggle('text-red-500', !isLiked);
+                countSpan.textContent = isLiked ? count - 1 : count + 1;
+            });
+
+            document.getElementById('view-my-rank-btn')?.addEventListener('click', () => {
+                document.querySelector('.user-rank-highlight')?.scrollIntoView({ behavior: 'smooth' });
+            });
+
+             // Wager and game selection logic
+            document.getElementById('wager-selection')?.addEventListener('click', (e) => {
+                const button = e.target.closest('.wager-btn');
+                if (button) {
+                    document.querySelectorAll('#wager-selection .wager-btn').forEach(btn => btn.classList.remove('selected'));
+                    button.classList.add('selected');
                 }
             });
 
-            // --- Friend Request item logic ---
-            const requestsList = document.getElementById('requests-list');
-            const noRequestsMsg = document.getElementById('no-requests-msg');
-            requestsList.addEventListener('click', (e) => {
-                if (e.target.tagName === 'BUTTON') {
-                    const requestItem = e.target.closest('.request-item');
-                    if (requestItem) {
-                        requestItem.style.transition = 'opacity 0.3s ease';
-                        requestItem.style.opacity = '0';
-                        setTimeout(() => {
-                            requestItem.remove();
-                            if (requestsList.children.length === 0) {
-                                noRequestsMsg.classList.remove('hidden');
-                            }
-                        }, 300);
-                    }
+            document.getElementById('game-selection')?.addEventListener('click', (e) => {
+                const button = e.target.closest('.game-choice-btn');
+                if (button) {
+                    document.querySelectorAll('#game-selection .game-choice-btn').forEach(btn => btn.classList.remove('selected'));
+                    button.classList.add('selected');
                 }
-            });
-
-            // --- Show More Friends Logic ---
-            const showMoreBtn = document.getElementById('show-more-friends-btn');
-            showMoreBtn.addEventListener('click', () => {
-                document.querySelectorAll('#friends-list-container .friend-item.hidden').forEach(item => {
-                    item.classList.remove('hidden');
-                });
-                showMoreBtn.style.display = 'none';
             });
         });
     </script>
