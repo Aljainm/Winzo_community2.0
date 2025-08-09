@@ -78,6 +78,11 @@
             transition: transform 0.1s ease;
         }
         .btn:active { transform: scale(0.98); }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(50%);
+        }
         .btn-green { background: linear-gradient(90deg, #4ade80 0%, #16a34a 100%); border-bottom: 3px solid #15803d; }
         .btn-orange { background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%); border-bottom: 3px solid #d97706; }
         .btn-red { background: linear-gradient(90deg, #f87171 0%, #dc2626 100%); border-bottom: 3px solid #b91c1c; }
@@ -106,6 +111,24 @@
              color: #1e1b4b;
              border-color: #fde047;
         }
+
+        /* Group Member Avatars Stack */
+        .avatar-stack { display: flex; }
+        .avatar-stack .avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #3b0764;
+            margin-left: -8px;
+            background-color: #4a0e89;
+            color: #fde047;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .avatar-stack .avatar:first-child { margin-left: 0; }
     </style>
 </head>
 <body class="h-screen w-screen flex items-center justify-center winzo-bg text-white">
@@ -121,10 +144,7 @@
             </div>
             <div id="section-title" class="flex-1 text-center font-bold text-lg">FRIENDS</div>
             <div id="header-actions" class="w-1/4 flex justify-end items-center space-x-4">
-                <div class="relative">
-                    <i class="fas fa-bell text-xl text-white"></i>
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
-                </div>
+                <!-- Header actions will be dynamically inserted here -->
             </div>
         </header>
 
@@ -165,12 +185,77 @@
                     <div class="pill-tab-item" data-tab="discover-groups">Discover</div>
                 </div>
                 <div id="my-groups" class="groups-tab-content space-y-3">
-                    <div class="card-bg p-3 rounded-xl flex items-center justify-between"><div class="flex items-center space-x-3"><i class="fas fa-trophy text-yellow-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Rummy Champions</h4><p class="text-xs text-gray-300">128 members</p><p class="text-xs text-green-400">New challenge started!</p></div></div><button class="btn btn-blue px-4 py-2">Enter</button></div>
-                    <div class="card-bg p-3 rounded-xl flex items-center justify-between"><div class="flex items-center space-x-3"><i class="fas fa-dice text-sky-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Ludo Legends</h4><p class="text-xs text-gray-300">42 members</p><p class="text-xs text-gray-400">Last message: 2h ago</p></div></div><button class="btn btn-blue px-4 py-2">Enter</button></div>
+                    <p id="my-groups-counter" class="text-sm text-gray-400 font-semibold">You have 2 groups</p>
+                    <div id="my-groups-list" class="space-y-3">
+                         <div class="card-bg p-3 rounded-xl" data-group-name="Rummy Champions">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-trophy text-yellow-400 text-3xl w-10 h-10 flex items-center justify-center bg-slate-700/50 rounded-full"></i>
+                                    <div>
+                                        <h4 class="font-bold">Rummy Champions</h4>
+                                        <p class="text-xs text-green-400">New challenge started!</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="btn btn-blue text-xs px-3 py-1">Enter</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-700/50">
+                                <div class="text-left">
+                                    <div class="avatar-stack mb-1">
+                                        <div class="avatar"><i class="fas fa-user"></i></div>
+                                        <div class="avatar"><i class="fas fa-user"></i></div>
+                                        <div class="avatar"><i class="fas fa-user"></i></div>
+                                        <div class="avatar">+9</div>
+                                    </div>
+                                    <p class="text-xs text-gray-300">12 Members | <span class="text-green-400">5 Active</span></p>
+                                </div>
+                                <button class="btn btn-orange text-xs quick-match-btn">Quick Match</button>
+                            </div>
+                        </div>
+                        <div class="card-bg p-3 rounded-xl" data-group-name="Ludo Legends">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-dice text-sky-400 text-3xl w-10 h-10 flex items-center justify-center bg-slate-700/50 rounded-full"></i>
+                                    <div>
+                                        <h4 class="font-bold">Ludo Legends</h4>
+                                        <p class="text-xs text-gray-400">Last message: 2h ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="btn btn-blue text-xs px-3 py-1">Enter</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-700/50">
+                                <div class="text-left">
+                                    <div class="avatar-stack mb-1">
+                                         <div class="avatar"><i class="fas fa-user"></i></div>
+                                         <div class="avatar"><i class="fas fa-user"></i></div>
+                                         <div class="avatar">+2</div>
+                                    </div>
+                                    <p class="text-xs text-gray-300">4 Members | <span class="text-green-400">2 Active</span></p>
+                                </div>
+                                <button class="btn btn-orange text-xs quick-match-btn">Quick Match</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="discover-groups" class="groups-tab-content hidden space-y-3">
-                    <div class="card-bg p-3 rounded-xl flex items-center justify-between"><div class="flex items-center space-x-3"><i class="fas fa-hat-wizard text-purple-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Fantasy Fanatics</h4><p class="text-xs text-gray-300">2,300 members</p><p class="text-xs text-gray-400">For fans of fantasy sports</p></div></div><button class="btn btn-green px-4 py-2">Join</button></div>
-                    <div class="card-bg p-3 rounded-xl flex items-center justify-between"><div class="flex items-center space-x-3"><i class="fas fa-puzzle-piece text-orange-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Puzzle Masters</h4><p class="text-xs text-gray-300">512 members</p><p class="text-xs text-gray-400">Daily puzzles and challenges</p></div></div><button class="btn btn-green px-4 py-2">Join</button></div>
+                     <div class="card-bg p-3 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-3"><i class="fas fa-hat-wizard text-purple-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Fantasy Sports Addicts</h4><p class="text-xs text-gray-300">8/15 members</p><p class="text-xs text-gray-400">Join to compete in fantasy leagues</p></div></div><button class="btn btn-green px-4 py-2 text-sm join-group-btn">Join</button>
+                    </div>
+                    <div class="card-bg p-3 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-3"><i class="fas fa-gamepad text-red-500 text-2xl w-8 text-center"></i><div><h4 class="font-bold">PUBG Warriors</h4><p class="text-xs text-gray-300">11/15 members</p><p class="text-xs text-gray-400">For BGMI & PUBG lovers</p></div></div><button class="btn btn-green px-4 py-2 text-sm join-group-btn">Join</button>
+                    </div>
+                    <div class="card-bg p-3 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-3"><i class="fas fa-guitar text-orange-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Campus Musicians</h4><p class="text-xs text-gray-300">5/15 members</p><p class="text-xs text-gray-400">Jam sessions every weekend</p></div></div><button class="btn btn-green px-4 py-2 text-sm join-group-btn">Join</button>
+                    </div>
+                    <div class="card-bg p-3 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-3"><i class="fas fa-code text-cyan-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Coding Night Owls</h4><p class="text-xs text-gray-300">9/15 members</p><p class="text-xs text-gray-400">Hackathons & coding marathons</p></div></div><button class="btn btn-green px-4 py-2 text-sm join-group-btn">Join</button>
+                    </div>
+                    <div class="card-bg p-3 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-3"><i class="fas fa-film text-indigo-400 text-2xl w-8 text-center"></i><div><h4 class="font-bold">Movie Bingers</h4><p class="text-xs text-gray-300">14/15 members</p><p class="text-xs text-gray-400">Weekend movie marathons</p></div></div><button class="btn btn-green px-4 py-2 text-sm join-group-btn">Join</button>
+                    </div>
                 </div>
             </div>
 
@@ -200,7 +285,7 @@
                     <div class="flex space-x-4 overflow-x-auto no-scrollbar pb-2">
                         <div class="card-bg rounded-xl p-3 w-40 flex-shrink-0 text-center"><i class="fas fa-trophy-alt text-yellow-400 text-3xl mb-2"></i><h4 class="font-bold">Rummy Champions</h4><p class="text-xs text-gray-400 mb-2">128 members</p><button class="btn btn-blue w-full text-sm py-1">Enter</button></div>
                         <div class="card-bg rounded-xl p-3 w-40 flex-shrink-0 text-center"><i class="fas fa-hat-wizard text-purple-400 text-3xl mb-2"></i><h4 class="font-bold">Fantasy Fanatics</h4><p class="text-xs text-gray-400 mb-2">2.3k members</p><button class="btn btn-green w-full text-sm py-1">Join</button></div>
-                        <div class="card-bg rounded-xl p-3 w-40 flex-shrink-0 text-center"><i class="fas fa-dice text-sky-400 text-3xl mb-2"></i><h4 class="font-bold">Ludo Legends</h4><p class="text-xs text-gray-400 mb-2">42 members</p><button class="btn btn-blue w-full text-sm py-1">Enter</button></div>
+                        <div class="card-bg rounded-xl p-3 w-40 flex-shrink-0 text-center"><i class="fas fa-dice text-sky-400 text-3xl mb-2"></i><h4 class="font-bold">Ludo Legends</h4><p class="text-xs text-gray-400 mb-2">42 members</p<button class="btn btn-blue w-full text-sm py-1">Enter</button></div>
                     </div>
                 </section>
                 <section>
@@ -222,7 +307,7 @@
 
         </main>
 
-        <footer class="flex items-center justify-around p-3 bg-gradient-to-t from-black/50 to-transparent flex-shrink-0 shadow-inner">
+        <footer class="flex items-center justify-around p-3 bg-gradient-to-t from-black/50 to-transparent flex-shrink-0 shadow-inner z-20">
             <button class="nav-item flex flex-col items-center w-1/5 active" data-page="friends-page"><i class="fas fa-user-friends text-xl nav-icon"></i><span class="text-xs mt-1 font-semibold">Friends</span></button>
             <button class="nav-item flex flex-col items-center text-gray-400 w-1/5" data-page="groups-page"><i class="fas fa-users text-xl nav-icon"></i><span class="text-xs mt-1">Groups</span></button>
             <button class="nav-item flex flex-col items-center text-gray-400 w-1/5" data-page="celebrate-page"><i class="fas fa-trophy text-xl nav-icon"></i><span class="text-xs mt-1">Celebrate</span></button>
@@ -237,6 +322,40 @@
         <div id="duo-challenge-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50"><div class="flex justify-between items-start mb-4"><h3 class="text-xl font-bold text-yellow-300 leading-tight">Weekly Duo Challenge<br>with AnshikaV</h3><button id="close-duo-challenge-modal-btn" class="text-2xl text-gray-400 hover:text-white">&times;</button></div><p class="text-gray-300 text-sm mb-4 text-center">Team up for the week! Play a total of 20 games combined to earn a special reward.</p><div class="w-full bg-slate-900 rounded-full h-4 mt-2 border border-slate-600 mb-4"><div class="bg-gradient-to-r from-green-400 to-blue-500 h-full rounded-full flex items-center justify-center" style="width: 80%"><span class="text-xs font-bold text-slate-900">16 / 20 Games</span></div></div><div class="bg-slate-800/50 p-3 rounded-lg text-center"><p class="font-semibold text-green-400">Complete the challenge and you both win ₹20 Bonus Cash!</p></div></div></div>
         <div id="play-game-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50"><h3 id="play-game-modal-title" class="text-xl font-bold mb-4 text-center text-yellow-300">Play with Friend</h3><div class="w-full mb-5"><h4 class="font-semibold text-gray-300 text-sm mb-2">Choose Game</h4><div id="game-selection" class="grid grid-cols-3 gap-2"><button class="game-choice-btn p-2 rounded-lg selected">Rummy</button><button class="game-choice-btn p-2 rounded-lg">Ludo</button><button class="game-choice-btn p-2 rounded-lg">Snakes</button></div></div><div class="w-full mb-6"><h4 class="font-semibold text-gray-300 text-sm mb-3 text-center">Choose Entry Amount</h4><div id="wager-selection" class="flex justify-around items-center"><button class="wager-btn selected w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹2</p></button><button class="wager-btn w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹5</p></button><button class="wager-btn w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹10</p></button><button class="wager-btn w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹25</p></button></div></div><button class="btn btn-green w-full font-bold py-3">PLAY NOW</button><button id="close-play-game-modal-btn" class="text-gray-400 text-sm mt-4">Cancel</button></div></div>
         <div id="chat-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50"><h3 id="chat-modal-title" class="text-xl font-bold mb-4 text-yellow-300">Chat with Friend</h3><div class="bg-slate-900/50 rounded-lg p-3 h-48 mb-4 flex items-end"><p class="text-gray-400 text-sm">No messages yet...</p></div><div class="grid grid-cols-2 gap-2 mb-4"><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Hey, let's play Ludo!</button><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Wanna team up?</button><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Good game!</button><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Rematch?</button></div><button id="close-chat-modal-btn" class="btn btn-orange w-full mt-2">Close</button></div></div>
+        
+        <!-- NEW GROUP MODALS -->
+        <div id="create-group-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
+                <h3 class="text-xl font-bold mb-4 text-yellow-300">Create a New Group</h3>
+                <p class="text-sm text-gray-300 mb-1">Select friends to add (min 2, max 14):</p>
+                <p id="create-group-member-count" class="text-xs text-yellow-300 mb-3 font-semibold">0/14 selected</p>
+                <div id="create-group-friends-list" class="w-full h-40 overflow-y-auto no-scrollbar space-y-2 bg-slate-800/50 p-2 rounded-lg mb-4">
+                    <!-- Friends will be dynamically inserted here -->
+                </div>
+                <div id="group-name-container" class="w-full my-2 hidden">
+                     <label for="group-name-input" class="text-sm font-semibold text-gray-300">Group Name</label>
+                     <input id="group-name-input" type="text" placeholder="Enter group name..." class="w-full bg-slate-700/80 border-slate-600 rounded-lg mt-1 focus:ring-yellow-400 focus:border-yellow-400">
+                </div>
+                <div class="flex w-full space-x-2 mt-4">
+                    <button id="close-create-group-modal-btn" class="btn btn-red w-1/3">Cancel</button>
+                    <button id="create-group-action-btn" class="btn btn-green w-2/3" disabled>Create Group</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="quick-match-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
+                <h3 id="quick-match-group-name" class="text-xl font-bold mb-2 text-yellow-300">Quick Match</h3>
+                <p class="text-sm text-gray-300 mb-3">Select players to start a quick match.</p>
+                <div id="quick-match-members-list" class="w-full h-48 overflow-y-auto no-scrollbar space-y-2 bg-slate-800/50 p-2 rounded-lg mb-4">
+                     <!-- Group members will be dynamically inserted here -->
+                </div>
+                <div class="flex w-full space-x-2 mt-2">
+                    <button id="close-quick-match-modal-btn" class="btn btn-red w-1/3">Cancel</button>
+                    <button class="btn btn-green w-2/3">Start Match</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -244,6 +363,9 @@
             const sectionTitle = document.getElementById('section-title');
             const headerActions = document.getElementById('header-actions');
             
+            const bellIconHTML = `<div class="relative"><i class="fas fa-bell text-xl text-white"></i><span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span></div>`;
+            const createGroupBtnHTML = `<button id="create-group-header-btn" class="btn btn-blue text-xs px-3 py-1 flex items-center space-x-1"><i class="fas fa-plus"></i><span>Create</span></button>`;
+
             // --- Page Navigation ---
             function showPage(pageId) {
                 document.querySelectorAll('.community-page').forEach(page => page.classList.add('hidden'));
@@ -259,21 +381,20 @@
                 const titleEl = document.querySelector(`.nav-item[data-page="${pageId}"] span`);
                 sectionTitle.textContent = titleEl ? titleEl.textContent.toUpperCase() : 'WINZO';
 
-                // Update header actions based on page
                 headerActions.innerHTML = ''; // Clear previous actions
-                const bellIcon = `<div class="relative"><i class="fas fa-bell text-xl text-white"></i><span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span></div>`;
-
                 if (pageId === 'groups-page') {
-                    headerActions.innerHTML = `<button class="btn btn-blue text-xs px-3 py-1 flex items-center space-x-1"><i class="fas fa-plus"></i><span>Create</span></button>`;
+                    headerActions.innerHTML = createGroupBtnHTML;
+                    // Re-attach listener as the button is recreated
+                    document.getElementById('create-group-header-btn')?.addEventListener('click', () => openModal(modals.createGroup));
                 } else {
-                    headerActions.innerHTML = bellIcon;
+                    headerActions.innerHTML = bellIconHTML;
                 }
             }
             
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.addEventListener('click', () => showPage(item.dataset.page));
             });
-            showPage('friends-page'); // Initial page
+            
 
             // --- Generic Tab Switching Logic ---
             function setupTabs(containerId, contentClass) {
@@ -284,20 +405,19 @@
                     const tab = e.target.closest('.pill-tab-item');
                     if (!tab || tab.classList.contains('active')) return;
 
-                    const activeTab = tabContainer.querySelector('.active');
-                    activeTab.classList.remove('active');
+                    tabContainer.querySelector('.active')?.classList.remove('active');
                     tab.classList.add('active');
 
                     const tabContentId = tab.dataset.tab;
-                    tab.closest('.community-page').querySelectorAll(`.${contentClass}`).forEach(content => {
+                    tab.closest('.community-page, .modal-content')?.querySelectorAll(`.${contentClass}`).forEach(content => {
                         content.classList.toggle('hidden', content.id !== tabContentId);
                     });
                 });
             }
 
             setupTabs('groups-tabs', 'groups-tab-content');
-            setupTabs('leaderboards-scope-tabs', 'leaderboard-scope-content'); // Placeholder for future use
-            setupTabs('leaderboards-time-tabs', 'leaderboard-time-content'); // Placeholder for future use
+            setupTabs('leaderboards-scope-tabs', 'leaderboard-scope-content');
+            setupTabs('leaderboards-time-tabs', 'leaderboard-time-content');
 
 
             // --- Modal Handling ---
@@ -308,6 +428,8 @@
                 duo: document.getElementById('duo-challenge-modal'),
                 play: document.getElementById('play-game-modal'),
                 chat: document.getElementById('chat-modal'),
+                createGroup: document.getElementById('create-group-modal'),
+                quickMatch: document.getElementById('quick-match-modal'),
             };
             const openModal = (modal) => modal?.classList.remove('hidden');
             const closeModal = (modal) => modal?.classList.add('hidden');
@@ -323,10 +445,14 @@
             document.querySelectorAll('[id^="close-"]').forEach(btn => {
                 btn.addEventListener('click', () => Object.values(modals).forEach(closeModal));
             });
-            Object.values(modals).forEach(modal => modal?.addEventListener('click', (e) => e.target === modal && closeModal(modal)));
+            Object.values(modals).forEach(modal => modal?.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal);
+                }
+            }));
 
 
-            // --- Page-Specific Logic ---
+            // --- Friends Page-Specific Logic ---
             document.getElementById('friends-page')?.addEventListener('click', (e) => {
                 const friendItem = e.target.closest('[data-friend-name]');
                 if (!friendItem) return;
@@ -346,6 +472,7 @@
                 e.target.style.display = 'none';
             });
 
+            // --- Celebrate Page Logic ---
             document.getElementById('celebrate-page')?.addEventListener('click', e => {
                 const likeBtn = e.target.closest('.like-btn');
                 if(!likeBtn) return;
@@ -361,10 +488,11 @@
                 countSpan.textContent = isLiked ? count - 1 : count + 1;
             });
 
+            // --- Leaderboards Page Logic ---
             document.getElementById('view-my-rank-btn')?.addEventListener('click', () => {
                 document.querySelector('.user-rank-highlight')?.scrollIntoView({ behavior: 'smooth' });
             });
-
+            
              // Wager and game selection logic
             document.getElementById('wager-selection')?.addEventListener('click', (e) => {
                 const button = e.target.closest('.wager-btn');
@@ -381,6 +509,152 @@
                     button.classList.add('selected');
                 }
             });
+
+            // --- GROUPS PAGE LOGIC ---
+            
+            // Populate Create Group Modal Friends List
+            const createGroupFriendsList = document.getElementById('create-group-friends-list');
+            const allFriends = Array.from(document.querySelectorAll('#friends-list-container > div'));
+            const friendNames = allFriends.map(f => f.dataset.friendName);
+            
+            friendNames.forEach(name => {
+                createGroupFriendsList.innerHTML += `
+                    <label class="flex items-center space-x-3 p-2 rounded-lg hover:bg-slate-700 cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 rounded bg-slate-900 border-slate-600 text-yellow-400 focus:ring-yellow-400">
+                        <span class="font-semibold">${name}</span>
+                    </label>
+                `;
+            });
+            
+            // Create Group Modal interaction
+            const groupNameContainer = document.getElementById('group-name-container');
+            const createGroupActionBtn = document.getElementById('create-group-action-btn');
+            const memberCountEl = document.getElementById('create-group-member-count');
+
+            createGroupFriendsList.addEventListener('change', () => {
+                const selected = createGroupFriendsList.querySelectorAll('input:checked');
+                const count = selected.length;
+
+                memberCountEl.textContent = `${count}/14 selected`;
+
+                // Disable checkboxes if max is reached
+                if (count >= 14) {
+                    createGroupFriendsList.querySelectorAll('input:not(:checked)').forEach(cb => cb.disabled = true);
+                } else {
+                    createGroupFriendsList.querySelectorAll('input:not(:checked)').forEach(cb => cb.disabled = false);
+                }
+
+                // Show name input and enable create button if conditions met
+                if (count >= 2) {
+                    groupNameContainer.classList.remove('hidden');
+                    createGroupActionBtn.disabled = false;
+                } else {
+                    groupNameContainer.classList.add('hidden');
+                    createGroupActionBtn.disabled = true;
+                }
+            });
+
+            // Handle group creation
+            createGroupActionBtn.addEventListener('click', () => {
+                const groupName = document.getElementById('group-name-input').value.trim();
+                if (!groupName) {
+                    alert('Please enter a group name.');
+                    return;
+                }
+
+                const selectedFriends = Array.from(createGroupFriendsList.querySelectorAll('input:checked')).length;
+                const totalMembers = selectedFriends + 1; // +1 for the user
+
+                // Create new group card HTML
+                const newGroupHTML = `
+                     <div class="card-bg p-3 rounded-xl" data-group-name="${groupName}">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-users text-cyan-400 text-3xl w-10 h-10 flex items-center justify-center bg-slate-700/50 rounded-full"></i>
+                                <div><h4 class="font-bold">${groupName}</h4><p class="text-xs text-green-400">Just created!</p></div>
+                            </div>
+                            <div class="flex space-x-2"><button class="btn btn-blue text-xs px-3 py-1">Enter</button></div>
+                        </div>
+                        <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-700/50">
+                            <div class="text-left">
+                                <div class="avatar-stack mb-1">
+                                     <div class="avatar"><i class="fas fa-user"></i></div>
+                                     <div class="avatar">+${totalMembers - 1}</div>
+                                </div>
+                                <p class="text-xs text-gray-300">${totalMembers} Members | <span class="text-green-400">1 Active</span></p>
+                            </div>
+                            <button class="btn btn-orange text-xs quick-match-btn">Quick Match</button>
+                        </div>
+                    </div>`;
+
+                document.getElementById('my-groups-list').insertAdjacentHTML('afterbegin', newGroupHTML);
+                updateMyGroupsCounter();
+                closeModal(modals.createGroup);
+
+                // Reset modal
+                createGroupFriendsList.querySelectorAll('input:checked').forEach(cb => cb.checked = false);
+                document.getElementById('group-name-input').value = '';
+                groupNameContainer.classList.add('hidden');
+                createGroupActionBtn.disabled = true;
+                memberCountEl.textContent = `0/14 selected`;
+            });
+
+            function updateMyGroupsCounter() {
+                 const count = document.querySelectorAll('#my-groups-list > div').length;
+                 document.getElementById('my-groups-counter').textContent = `You have ${count} group${count === 1 ? '' : 's'}`;
+            }
+            
+            // Quick Match Modal Logic
+            document.getElementById('my-groups-list').addEventListener('click', e => {
+                if (e.target.classList.contains('quick-match-btn')) {
+                    const card = e.target.closest('[data-group-name]');
+                    const groupName = card.dataset.groupName;
+
+                    document.getElementById('quick-match-group-name').textContent = `Quick Match: ${groupName}`;
+                    const quickMatchMembersList = document.getElementById('quick-match-members-list');
+                    quickMatchMembersList.innerHTML = `
+                         <label class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-700 cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-user text-lg"></i>
+                                <span class="font-semibold">You</span>
+                                <i class="fas fa-circle text-green-500 text-xs ml-2"></i>
+                            </div>
+                            <input type="checkbox" checked disabled class="form-checkbox h-5 w-5 rounded bg-slate-900 border-slate-600 text-yellow-400 focus:ring-yellow-400">
+                        </label>
+                        ${friendNames.slice(0, 5).map(name => `
+                        <label class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-700 cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-user text-lg"></i>
+                                <span class="font-semibold">${name}</span>
+                                ${Math.random() > 0.5 ? '<i class="fas fa-circle text-green-500 text-xs ml-2"></i>' : ''}
+                            </div>
+                            <input type="checkbox" class="form-checkbox h-5 w-5 rounded bg-slate-900 border-slate-600 text-yellow-400 focus:ring-yellow-400">
+                        </label>
+                        `).join('')}
+                    `;
+                    openModal(modals.quickMatch);
+                }
+            });
+
+            // Join Group Logic
+            document.getElementById('discover-groups').addEventListener('click', e => {
+                if (e.target.classList.contains('join-group-btn')) {
+                    const card = e.target.closest('.card-bg');
+                    const groupName = card.querySelector('h4').textContent;
+                    
+                    e.target.textContent = 'Joined!';
+                    e.target.disabled = true;
+                    e.target.classList.remove('btn-green');
+                    e.target.classList.add('btn-red');
+
+                    // In a real app, you'd clone and move this. For this demo, we just indicate it's joined.
+                    // A simple alert could also work.
+                    alert(`You have joined "${groupName}"! It would now appear in "My Groups".`);
+                }
+            });
+
+
+            showPage('friends-page'); // Initial page load
         });
     </script>
 </body>
