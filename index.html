@@ -27,7 +27,7 @@
         }
         .mobile-screen {
             width: 360px;
-            height: 636px;
+            height: 800px;
             margin: auto;
             display: grid;
             grid-template-rows: auto 1fr auto;
@@ -109,7 +109,7 @@
         <header class="flex items-center justify-between p-4 bg-gradient-to-b from-purple-900/50 to-transparent shadow-lg z-10">
             <div class="flex items-center space-x-3">
                  <!-- Changed Avatar -->
-                 <img src="https://i.imgur.com/rGfR4wX.png" class="w-10 h-10 rounded-full object-cover">
+                 <img src="https://i.imgur.com/8b2434A.png" class="w-10 h-10 rounded-full object-cover">
                 <div class="flex flex-col text-sm">
                     <div class="flex items-center space-x-1">
                         <i class="fas fa-gem text-yellow-300"></i>
@@ -141,7 +141,7 @@
 
                     <div class="flex flex-col items-center p-4 pt-10 text-center">
                         <!-- Changed Avatar -->
-                        <img src="https://i.imgur.com/rGfR4wX.png" alt="User Avatar" class="w-24 h-24 rounded-full mb-3 border-4 border-yellow-300/50 object-cover">
+                        <img src="https://i.imgur.com/8b2434A.png" alt="User Avatar" class="w-24 h-24 rounded-full mb-3 border-4 border-yellow-300/50 object-cover">
                         <h2 class="text-2xl font-bold">Atharva Lokhande</h2>
                         <p class="text-gray-400 text-sm">@AtharvaLokhande • Joined April 2019</p>
 
@@ -221,11 +221,27 @@
                 </div>
             </div>
 
-            <!-- Other pages remain hidden -->
-            <div id="groups-page" class="community-page hidden"></div>
-            <div id="celebrate-page" class="community-page hidden"></div>
-            <div id="leaderboards-page" class="community-page hidden"></div>
-            <div id="discover-page" class="community-page hidden"></div>
+            <!-- Other pages restored -->
+            <div id="groups-page" class="community-page hidden p-4 text-center">
+                <i class="fas fa-users text-5xl text-yellow-300/50 my-10"></i>
+                <h2 class="text-2xl font-bold">Groups</h2>
+                <p class="text-gray-400 mt-4">Create groups, chat with friends, and plan your next game together!</p>
+            </div>
+            <div id="celebrate-page" class="community-page hidden p-4 text-center">
+                <i class="fas fa-trophy text-5xl text-yellow-300/50 my-10"></i>
+                <h2 class="text-2xl font-bold">Celebrate</h2>
+                <p class="text-gray-400 mt-4">Check out your biggest wins and achievements here.</p>
+            </div>
+            <div id="leaderboards-page" class="community-page hidden p-4 text-center">
+                <i class="fas fa-chart-bar text-5xl text-yellow-300/50 my-10"></i>
+                <h2 class="text-2xl font-bold">Leaderboards</h2>
+                <p class="text-gray-400 mt-4">See how you rank against other players.</p>
+            </div>
+            <div id="discover-page" class="community-page hidden p-4 text-center">
+                <i class="fas fa-compass text-5xl text-yellow-300/50 my-10"></i>
+                <h2 class="text-2xl font-bold">Discover</h2>
+                <p class="text-gray-400 mt-4">Find new friends and communities to join.</p>
+            </div>
 
         </main>
 
