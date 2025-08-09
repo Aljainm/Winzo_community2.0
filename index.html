@@ -129,6 +129,31 @@
             font-weight: bold;
         }
         .avatar-stack .avatar:first-child { margin-left: 0; }
+        
+        /* --- CELEBRATE PAGE ENHANCEMENTS --- */
+        .floating-heart {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #ef4444;
+            font-size: 1.2rem;
+            animation: float-up 0.6s ease-out forwards;
+            pointer-events: none;
+            opacity: 0;
+        }
+        @keyframes float-up {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -100px) scale(1.5); opacity: 0; }
+        }
+        .quick-reply-btn, .gift-option-btn {
+            background-color: rgba(71, 85, 105, 0.4);
+            border: 1px solid rgba(100, 116, 139, 0.6);
+            transition: background-color 0.2s;
+        }
+        .quick-reply-btn:hover, .gift-option-btn:hover {
+            background-color: rgba(100, 116, 139, 0.6);
+        }
     </style>
 </head>
 <body class="h-screen w-screen flex items-center justify-center winzo-bg text-white">
@@ -261,9 +286,8 @@
 
             <div id="celebrate-page" class="community-page hidden p-4 space-y-4">
                 <div class="card-bg p-3 rounded-xl"><input type="text" class="w-full bg-transparent border-0 focus:ring-0 text-white placeholder-gray-400" placeholder="Share your achievement..."></div>
-                <div class="space-y-4">
-                    <div class="card-bg p-4 rounded-xl space-y-3"><div class="flex items-center space-x-3"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div><p class="font-semibold">SnehaP won <span class="highlight-text">₹500</span> in Rummy!</p><p class="text-xs text-gray-400">1h ago</p></div></div><div class="border-t border-slate-700 flex justify-around pt-2 text-gray-400"><button class="like-btn flex items-center space-x-1 hover:text-red-500"><i class="far fa-heart"></i><span class="like-count text-xs">12</span></button><button class="flex items-center space-x-1 hover:text-yellow-300"><i class="far fa-comment-dots"></i><span class="text-xs">3</span></button><button class="hover:text-yellow-300"><i class="fas fa-gift"></i></button><button class="hover:text-yellow-300"><i class="fas fa-gamepad"></i></button></div></div>
-                    <div class="card-bg p-4 rounded-xl space-y-3"><div class="flex items-center space-x-3"><div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-3xl text-yellow-300/70"></i></div><div><p class="font-semibold">Just hit a <span class="highlight-text">15-game</span> win streak! 🔥</p><p class="text-xs text-gray-400">3h ago</p></div></div><div class="border-t border-slate-700 flex justify-around pt-2 text-gray-400"><button class="like-btn flex items-center space-x-1 hover:text-red-500"><i class="far fa-heart"></i><span class="like-count text-xs">45</span></button><button class="flex items-center space-x-1 hover:text-yellow-300"><i class="far fa-comment-dots"></i><span class="text-xs">8</span></button><button class="hover:text-yellow-300"><i class="fas fa-gift"></i></button><button class="hover:text-yellow-300"><i class="fas fa-share-alt"></i></button></div></div>
+                <div id="celebrate-feed" class="space-y-4">
+                    <!-- Achievement cards will be injected here by JS for better management -->
                 </div>
             </div>
 
@@ -323,14 +347,13 @@
         <div id="play-game-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50"><h3 id="play-game-modal-title" class="text-xl font-bold mb-4 text-center text-yellow-300">Play with Friend</h3><div class="w-full mb-5"><h4 class="font-semibold text-gray-300 text-sm mb-2">Choose Game</h4><div id="game-selection" class="grid grid-cols-3 gap-2"><button class="game-choice-btn p-2 rounded-lg selected">Rummy</button><button class="game-choice-btn p-2 rounded-lg">Ludo</button><button class="game-choice-btn p-2 rounded-lg">Snakes</button></div></div><div class="w-full mb-6"><h4 class="font-semibold text-gray-300 text-sm mb-3 text-center">Choose Entry Amount</h4><div id="wager-selection" class="flex justify-around items-center"><button class="wager-btn selected w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹2</p></button><button class="wager-btn w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹5</p></button><button class="wager-btn w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹10</p></button><button class="wager-btn w-16 h-16 rounded-full flex justify-center items-center font-bold text-2xl"><p>₹25</p></button></div></div><button class="btn btn-green w-full font-bold py-3">PLAY NOW</button><button id="close-play-game-modal-btn" class="text-gray-400 text-sm mt-4">Cancel</button></div></div>
         <div id="chat-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50"><div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50"><h3 id="chat-modal-title" class="text-xl font-bold mb-4 text-yellow-300">Chat with Friend</h3><div class="bg-slate-900/50 rounded-lg p-3 h-48 mb-4 flex items-end"><p class="text-gray-400 text-sm">No messages yet...</p></div><div class="grid grid-cols-2 gap-2 mb-4"><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Hey, let's play Ludo!</button><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Wanna team up?</button><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Good game!</button><button class="bg-slate-700/80 text-left text-sm p-2 rounded-lg hover:bg-slate-600">Rematch?</button></div><button id="close-chat-modal-btn" class="btn btn-orange w-full mt-2">Close</button></div></div>
         
-        <!-- NEW GROUP MODALS -->
+        <!-- GROUP MODALS -->
         <div id="create-group-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
             <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
                 <h3 class="text-xl font-bold mb-4 text-yellow-300">Create a New Group</h3>
                 <p class="text-sm text-gray-300 mb-1">Select friends to add (min 2, max 14):</p>
                 <p id="create-group-member-count" class="text-xs text-yellow-300 mb-3 font-semibold">0/14 selected</p>
                 <div id="create-group-friends-list" class="w-full h-40 overflow-y-auto no-scrollbar space-y-2 bg-slate-800/50 p-2 rounded-lg mb-4">
-                    <!-- Friends will be dynamically inserted here -->
                 </div>
                 <div id="group-name-container" class="w-full my-2 hidden">
                      <label for="group-name-input" class="text-sm font-semibold text-gray-300">Group Name</label>
@@ -342,13 +365,11 @@
                 </div>
             </div>
         </div>
-
         <div id="quick-match-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
             <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
                 <h3 id="quick-match-group-name" class="text-xl font-bold mb-2 text-yellow-300">Quick Match</h3>
                 <p class="text-sm text-gray-300 mb-3">Select players to start a quick match.</p>
                 <div id="quick-match-members-list" class="w-full h-48 overflow-y-auto no-scrollbar space-y-2 bg-slate-800/50 p-2 rounded-lg mb-4">
-                     <!-- Group members will be dynamically inserted here -->
                 </div>
                 <div class="flex w-full space-x-2 mt-2">
                     <button id="close-quick-match-modal-btn" class="btn btn-red w-1/3">Cancel</button>
@@ -356,6 +377,45 @@
                 </div>
             </div>
         </div>
+
+        <!-- CELEBRATE PAGE MODALS -->
+        <div id="likers-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
+                <h3 class="text-xl font-bold mb-4 text-yellow-300">Liked by</h3>
+                <div id="likers-list" class="w-full h-48 overflow-y-auto no-scrollbar space-y-2 bg-slate-800/50 p-2 rounded-lg mb-4">
+                    <!-- Likers will be dynamically inserted here -->
+                </div>
+                <button id="close-likers-modal-btn" class="btn btn-orange w-full mt-2">Close</button>
+            </div>
+        </div>
+        <div id="comment-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
+                <h3 id="comment-modal-title" class="text-xl font-bold mb-4 text-yellow-300">Reply to Post</h3>
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    <button class="quick-reply-btn p-2 rounded-lg text-sm">🔥 Awesome!</button>
+                    <button class="quick-reply-btn p-2 rounded-lg text-sm">👏 Well done!</button>
+                    <button class="quick-reply-btn p-2 rounded-lg text-sm">🎯 Epic win!</button>
+                    <button class="quick-reply-btn p-2 rounded-lg text-sm">🤯 Unbelievable!</button>
+                </div>
+                <textarea id="custom-comment-input" class="w-full bg-slate-700/80 border-slate-600 rounded-lg focus:ring-yellow-400 focus:border-yellow-400 text-sm" rows="2" placeholder="Write a custom comment..."></textarea>
+                <div class="flex w-full space-x-2 mt-4">
+                    <button id="close-comment-modal-btn" class="btn btn-red w-1/3">Cancel</button>
+                    <button id="send-comment-btn" class="btn btn-green w-2/3">Send</button>
+                </div>
+            </div>
+        </div>
+        <div id="gift-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+             <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
+                <h3 id="gift-modal-title" class="text-xl font-bold mb-4 text-yellow-300">Send a Gift</h3>
+                <div class="w-full space-y-3 mb-4">
+                   <button class="gift-option-btn w-full p-3 rounded-lg text-left flex items-center space-x-3"><i class="fas fa-coins text-2xl text-yellow-400"></i><div><p class="font-semibold">₹5 Bonus Cash</p><p class="text-xs text-gray-400">A small token of appreciation.</p></div></button>
+                   <button class="gift-option-btn w-full p-3 rounded-lg text-left flex items-center space-x-3"><i class="fas fa-coins text-2xl text-yellow-400"></i><div><p class="font-semibold">₹10 Bonus Cash</p><p class="text-xs text-gray-400">For an awesome play!</p></div></button>
+                   <button class="gift-option-btn w-full p-3 rounded-lg text-left flex items-center space-x-3"><i class="fas fa-medal text-2xl text-orange-400"></i><div><p class="font-semibold">Champion Badge</p><p class="text-xs text-gray-400">A rare badge for their profile.</p></div></button>
+                </div>
+                <button id="close-gift-modal-btn" class="btn btn-red w-full mt-2">Cancel</button>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -365,6 +425,49 @@
             
             const bellIconHTML = `<div class="relative"><i class="fas fa-bell text-xl text-white"></i><span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span></div>`;
             const createGroupBtnHTML = `<button id="create-group-header-btn" class="btn btn-blue text-xs px-3 py-1 flex items-center space-x-1"><i class="fas fa-plus"></i><span>Create</span></button>`;
+            
+            // --- CELEBRATE FEED DATA ---
+            const celebrateFeedData = [
+                { id: 1, user: 'SnehaP', icon: 'fa-user', text: `won <span class="highlight-text">₹500</span> in Rummy!`, time: '1h ago', likes: 12, comments: 3, gifts: 1 },
+                { id: 2, user: 'You', icon: 'fa-user-astronaut', text: `just hit a <span class="highlight-text">15-game</span> win streak! 🔥`, time: '3h ago', likes: 45, comments: 8, gifts: 5 },
+                { id: 3, user: 'AryanJ', icon: 'fa-user-secret', text: `is the <span class="highlight-text">#1</span> in the Weekly Ludo Tournament! 🏆`, time: '8h ago', likes: 152, comments: 23, gifts: 10 },
+                { id: 4, user: 'RaviK', icon: 'fa-user-ninja', text: `got a perfect hand in Rummy. Royal flush!`, time: '1d ago', likes: 78, comments: 12, gifts: 2 },
+                { id: 5, user: 'MeeraG', icon: 'fa-user-graduate', text: `has been promoted to the <span class="highlight-text">Unicorn League!</span> 🦄`, time: '1d ago', likes: 203, comments: 41, gifts: 15 },
+                { id: 6, user: 'KavyaR', icon: 'fa-user-tie', text: `landed her first big win of <span class="highlight-text">₹1,200</span>!`, time: '2d ago', likes: 99, comments: 18, gifts: 3 },
+                { id: 7, user: 'AnshikaV', icon: 'fa-user-md', text: `cleared the Duo Challenge solo. What a legend!`, time: '3d ago', likes: 88, comments: 15, gifts: 7 },
+            ];
+            
+            function renderCelebrateFeed() {
+                const feedContainer = document.getElementById('celebrate-feed');
+                feedContainer.innerHTML = celebrateFeedData.map(post => `
+                    <div class="card-bg p-4 rounded-xl space-y-3" data-post-id="${post.id}" data-username="${post.user}">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0">
+                                <i class="fas ${post.icon} text-2xl text-yellow-300/60"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">${post.user} ${post.text}</p>
+                                <p class="text-xs text-gray-400">${post.time} <span class="gift-count-display ${post.gifts > 0 ? '' : 'hidden'}"> • 🎁 ${post.gifts} gifts</span></p>
+                            </div>
+                        </div>
+                        <div class="border-t border-slate-700 flex justify-around pt-2 text-gray-400">
+                            <button class="like-btn relative flex items-center space-x-1 hover:text-red-500 w-1/4 justify-center">
+                                <i class="far fa-heart"></i><span class="like-count text-xs">${post.likes}</span>
+                            </button>
+                            <button class="comment-btn flex items-center space-x-1 hover:text-yellow-300 w-1/4 justify-center">
+                                <i class="far fa-comment-dots"></i><span class="comment-count text-xs">${post.comments}</span>
+                            </button>
+                            <button class="gift-btn flex items-center space-x-1 hover:text-yellow-300 w-1/4 justify-center">
+                                <i class="fas fa-gift"></i><span class="text-xs">Gift</span>
+                            </button>
+                            <button class="challenge-btn flex items-center space-x-1 hover:text-yellow-300 w-1/4 justify-center">
+                                <i class="fas fa-gamepad"></i><span class="text-xs">Challenge</span>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
 
             // --- Page Navigation ---
             function showPage(pageId) {
@@ -384,8 +487,10 @@
                 headerActions.innerHTML = ''; // Clear previous actions
                 if (pageId === 'groups-page') {
                     headerActions.innerHTML = createGroupBtnHTML;
-                    // Re-attach listener as the button is recreated
                     document.getElementById('create-group-header-btn')?.addEventListener('click', () => openModal(modals.createGroup));
+                } else if (pageId === 'celebrate-page') {
+                     headerActions.innerHTML = bellIconHTML;
+                     renderCelebrateFeed(); // Always render the feed to ensure content is present
                 } else {
                     headerActions.innerHTML = bellIconHTML;
                 }
@@ -421,6 +526,7 @@
 
 
             // --- Modal Handling ---
+            let currentCard = null; // Store the card being interacted with
             const modals = {
                 qr: document.getElementById('qr-modal'),
                 invite: document.getElementById('invite-modal'),
@@ -430,6 +536,9 @@
                 chat: document.getElementById('chat-modal'),
                 createGroup: document.getElementById('create-group-modal'),
                 quickMatch: document.getElementById('quick-match-modal'),
+                likers: document.getElementById('likers-modal'),
+                comment: document.getElementById('comment-modal'),
+                gift: document.getElementById('gift-modal'),
             };
             const openModal = (modal) => modal?.classList.remove('hidden');
             const closeModal = (modal) => modal?.classList.add('hidden');
@@ -473,20 +582,97 @@
             });
 
             // --- Celebrate Page Logic ---
-            document.getElementById('celebrate-page')?.addEventListener('click', e => {
+            let pressTimer;
+            document.getElementById('celebrate-page').addEventListener('mousedown', e => {
                 const likeBtn = e.target.closest('.like-btn');
-                if(!likeBtn) return;
+                if (!likeBtn) return;
+                pressTimer = setTimeout(() => {
+                    currentCard = likeBtn.closest('[data-post-id]');
+                    openLikersModal();
+                }, 500);
+            });
+            document.getElementById('celebrate-page').addEventListener('mouseup', () => clearTimeout(pressTimer));
+            document.getElementById('celebrate-page').addEventListener('mouseleave', () => clearTimeout(pressTimer), true);
 
+            document.getElementById('celebrate-page').addEventListener('click', e => {
+                const button = e.target.closest('button');
+                if (!button) return;
+
+                currentCard = button.closest('[data-post-id]');
+                const username = currentCard.dataset.username;
+
+                if (button.classList.contains('like-btn')) {
+                    clearTimeout(pressTimer);
+                    toggleLike(button);
+                } else if (button.classList.contains('comment-btn')) {
+                    openCommentModal(username);
+                } else if (button.classList.contains('gift-btn')) {
+                    openGiftModal(username);
+                } else if (button.classList.contains('challenge-btn')) {
+                    document.getElementById('play-game-modal-title').textContent = `Challenge ${username}`;
+                    openModal(modals.play);
+                }
+            });
+
+            function toggleLike(likeBtn) {
                 const heartIcon = likeBtn.querySelector('i');
                 const countSpan = likeBtn.querySelector('.like-count');
                 const isLiked = heartIcon.classList.contains('fas');
                 let count = parseInt(countSpan.textContent);
-                
+
                 heartIcon.classList.toggle('far', isLiked);
                 heartIcon.classList.toggle('fas', !isLiked);
                 heartIcon.classList.toggle('text-red-500', !isLiked);
                 countSpan.textContent = isLiked ? count - 1 : count + 1;
+
+                if (!isLiked) { // If it was just liked
+                    const floatingHeart = document.createElement('i');
+                    floatingHeart.className = 'fas fa-heart floating-heart';
+                    likeBtn.appendChild(floatingHeart);
+                    floatingHeart.addEventListener('animationend', () => floatingHeart.remove());
+                }
+            }
+
+            function openLikersModal() {
+                 document.getElementById('likers-list').innerHTML = `
+                    ${['AnshikaV', 'You', 'RaviK', 'SnehaP'].map(name => `
+                        <div class="flex items-center space-x-3 p-2 rounded-lg">
+                            <i class="fas fa-user text-xl"></i><span>${name}</span>
+                        </div>
+                    `).join('')}`;
+                 openModal(modals.likers);
+            }
+            
+            function openCommentModal(username) {
+                document.getElementById('comment-modal-title').textContent = `Reply to ${username}`;
+                openModal(modals.comment);
+            }
+            
+            function openGiftModal(username) {
+                document.getElementById('gift-modal-title').textContent = `Send a gift to ${username}`;
+                openModal(modals.gift);
+            }
+            
+            // --- Celebrate Modals Interaction ---
+            document.getElementById('comment-modal').addEventListener('click', (e) => {
+                if(e.target.closest('.quick-reply-btn') || e.target.id === 'send-comment-btn') {
+                    const countSpan = currentCard.querySelector('.comment-count');
+                    countSpan.textContent = parseInt(countSpan.textContent) + 1;
+                    closeModal(modals.comment);
+                    document.getElementById('custom-comment-input').value = '';
+                }
             });
+            document.getElementById('gift-modal').addEventListener('click', (e) => {
+                 if(e.target.closest('.gift-option-btn')) {
+                    const giftCountSpan = currentCard.querySelector('.gift-count-display');
+                    let count = giftCountSpan.textContent.match(/\d+/) ? parseInt(giftCountSpan.textContent.match(/\d+/)[0]) : 0;
+                    count++;
+                    giftCountSpan.textContent = ` • 🎁 ${count} gifts`;
+                    giftCountSpan.classList.remove('hidden');
+                    closeModal(modals.gift);
+                 }
+            });
+
 
             // --- Leaderboards Page Logic ---
             document.getElementById('view-my-rank-btn')?.addEventListener('click', () => {
@@ -511,22 +697,23 @@
             });
 
             // --- GROUPS PAGE LOGIC ---
-            
-            // Populate Create Group Modal Friends List
             const createGroupFriendsList = document.getElementById('create-group-friends-list');
             const allFriends = Array.from(document.querySelectorAll('#friends-list-container > div'));
             const friendNames = allFriends.map(f => f.dataset.friendName);
             
-            friendNames.forEach(name => {
-                createGroupFriendsList.innerHTML += `
-                    <label class="flex items-center space-x-3 p-2 rounded-lg hover:bg-slate-700 cursor-pointer">
-                        <input type="checkbox" class="form-checkbox h-5 w-5 rounded bg-slate-900 border-slate-600 text-yellow-400 focus:ring-yellow-400">
-                        <span class="font-semibold">${name}</span>
-                    </label>
-                `;
-            });
+            function populateCreateGroupFriends() {
+                if (createGroupFriendsList.childElementCount > 0) return; // Only populate once
+                friendNames.forEach(name => {
+                    createGroupFriendsList.innerHTML += `
+                        <label class="flex items-center space-x-3 p-2 rounded-lg hover:bg-slate-700 cursor-pointer">
+                            <input type="checkbox" class="form-checkbox h-5 w-5 rounded bg-slate-900 border-slate-600 text-yellow-400 focus:ring-yellow-400">
+                            <span class="font-semibold">${name}</span>
+                        </label>
+                    `;
+                });
+            }
+            populateCreateGroupFriends();
             
-            // Create Group Modal interaction
             const groupNameContainer = document.getElementById('group-name-container');
             const createGroupActionBtn = document.getElementById('create-group-action-btn');
             const memberCountEl = document.getElementById('create-group-member-count');
@@ -537,14 +724,12 @@
 
                 memberCountEl.textContent = `${count}/14 selected`;
 
-                // Disable checkboxes if max is reached
                 if (count >= 14) {
                     createGroupFriendsList.querySelectorAll('input:not(:checked)').forEach(cb => cb.disabled = true);
                 } else {
                     createGroupFriendsList.querySelectorAll('input:not(:checked)').forEach(cb => cb.disabled = false);
                 }
 
-                // Show name input and enable create button if conditions met
                 if (count >= 2) {
                     groupNameContainer.classList.remove('hidden');
                     createGroupActionBtn.disabled = false;
@@ -554,7 +739,6 @@
                 }
             });
 
-            // Handle group creation
             createGroupActionBtn.addEventListener('click', () => {
                 const groupName = document.getElementById('group-name-input').value.trim();
                 if (!groupName) {
@@ -563,9 +747,8 @@
                 }
 
                 const selectedFriends = Array.from(createGroupFriendsList.querySelectorAll('input:checked')).length;
-                const totalMembers = selectedFriends + 1; // +1 for the user
+                const totalMembers = selectedFriends + 1;
 
-                // Create new group card HTML
                 const newGroupHTML = `
                      <div class="card-bg p-3 rounded-xl" data-group-name="${groupName}">
                         <div class="flex items-center justify-between">
@@ -591,7 +774,6 @@
                 updateMyGroupsCounter();
                 closeModal(modals.createGroup);
 
-                // Reset modal
                 createGroupFriendsList.querySelectorAll('input:checked').forEach(cb => cb.checked = false);
                 document.getElementById('group-name-input').value = '';
                 groupNameContainer.classList.add('hidden');
@@ -604,15 +786,12 @@
                  document.getElementById('my-groups-counter').textContent = `You have ${count} group${count === 1 ? '' : 's'}`;
             }
             
-            // Quick Match Modal Logic
             document.getElementById('my-groups-list').addEventListener('click', e => {
                 if (e.target.classList.contains('quick-match-btn')) {
                     const card = e.target.closest('[data-group-name]');
                     const groupName = card.dataset.groupName;
-
                     document.getElementById('quick-match-group-name').textContent = `Quick Match: ${groupName}`;
-                    const quickMatchMembersList = document.getElementById('quick-match-members-list');
-                    quickMatchMembersList.innerHTML = `
+                    document.getElementById('quick-match-members-list').innerHTML = `
                          <label class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-700 cursor-pointer">
                             <div class="flex items-center space-x-3">
                                 <i class="fas fa-user text-lg"></i>
@@ -636,7 +815,6 @@
                 }
             });
 
-            // Join Group Logic
             document.getElementById('discover-groups').addEventListener('click', e => {
                 if (e.target.classList.contains('join-group-btn')) {
                     const card = e.target.closest('.card-bg');
@@ -646,9 +824,6 @@
                     e.target.disabled = true;
                     e.target.classList.remove('btn-green');
                     e.target.classList.add('btn-red');
-
-                    // In a real app, you'd clone and move this. For this demo, we just indicate it's joined.
-                    // A simple alert could also work.
                     alert(`You have joined "${groupName}"! It would now appear in "My Groups".`);
                 }
             });
