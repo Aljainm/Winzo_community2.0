@@ -156,25 +156,6 @@
         }
 
         /* --- DISCOVER PAGE --- */
-        .discover-group-card .secondary-btn {
-            opacity: 0;
-            transform: translateY(5px);
-            transition: opacity 0.2s, transform 0.2s;
-        }
-        .discover-group-card:hover .secondary-btn {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .progress-bar-container {
-            background-color: rgba(0,0,0,0.3);
-            border-radius: 9999px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .progress-bar {
-            background: linear-gradient(90deg, #fde047, #fbbf24);
-            transition: width 0.5s ease-in-out;
-        }
         .epic-moment-card { position: relative; overflow: hidden; }
         .epic-moment-card .playback-bar {
             position: absolute;
@@ -348,91 +329,7 @@
             </div>
 
             <div id="discover-page" class="community-page hidden p-4 space-y-6">
-                 <!-- Section 1: Featured Groups -->
-                <section>
-                    <h3 class="font-bold text-lg mb-2">Featured Groups</h3>
-                    <div id="discover-featured-groups" class="flex space-x-4 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
-                        <!-- Group cards will be injected here -->
-                    </div>
-                </section>
-
-                <!-- Section 2: Community Events -->
-                <section>
-                    <h3 class="font-bold text-lg mb-2">Community Events</h3>
-                    <div class="relative rounded-xl p-4 flex flex-col justify-between h-48 bg-cover bg-center text-white shadow-lg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent 60%), url('https://placehold.co/600x200/2563eb/fde047?text=TOURNAMENT');">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h4 class="text-xl font-bold">Weekly Ludo Tournament</h4>
-                                <p class="text-sm font-semibold highlight-text">Prize Pool: ₹10,000</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-xs">Starts In:</p>
-                                <p id="event-countdown" class="font-bold text-lg highlight-text">00:00:00</p>
-                            </div>
-                        </div>
-                        <div class="w-full">
-                            <div id="event-mini-leaderboard" class="text-xs mb-2">
-                                <!-- Mini leaderboard injected here -->
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <button class="btn btn-orange w-full">Register Now</button>
-                                <button class="btn bg-slate-700/80 px-3"><i class="fas fa-share-alt"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Section 3: Player Spotlight -->
-                <section>
-                    <h3 class="font-bold text-lg mb-2">Player Spotlight</h3>
-                    <div class="card-bg rounded-xl p-4 flex items-center space-x-4">
-                        <div class="w-20 h-20 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0 border-2 border-yellow-400">
-                            <i class="fas fa-user-secret text-5xl text-yellow-400/80"></i>
-                        </div>
-                        <div class="flex-grow">
-                            <p class="font-bold text-lg">AryanJ</p>
-                            <p class="text-xs text-gray-300">Player of the Week</p>
-                            <p class="text-sm mt-1">🔥 12 Win Streak | 🚀 Best Score: 5,430</p>
-                        </div>
-                        <div class="flex flex-col space-y-2">
-                            <button class="btn btn-green text-xs px-2 py-1">Challenge</button>
-                            <button id="follow-player-btn" class="btn btn-blue text-xs px-2 py-1">Follow</button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section 4: Game Hubs -->
-                <section>
-                    <h3 class="font-bold text-lg mb-2">Game Hubs</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="card-bg rounded-xl p-3 space-y-2">
-                            <h4 class="font-bold text-lg text-center">Rummy Hub</h4>
-                            <div class="progress-bar-container h-2">
-                                <div id="rummy-hub-progress" class="progress-bar h-full" style="width: 75%;"></div>
-                            </div>
-                            <p class="text-xs text-center text-gray-300">Community Goal: 75% complete!</p>
-                            <p class="text-xs text-center text-gray-400 italic">Tip: "Discard high cards early."</p>
-                            <button class="btn btn-blue w-full text-xs mt-1">View Hub</button>
-                        </div>
-                        <div class="card-bg rounded-xl p-3 space-y-2">
-                            <h4 class="font-bold text-lg text-center">Ludo Lounge</h4>
-                            <div class="progress-bar-container h-2">
-                                <div id="ludo-hub-progress" class="progress-bar h-full" style="width: 42%;"></div>
-                            </div>
-                            <p class="text-xs text-center text-gray-300">Community Goal: 42% complete!</p>
-                            <p class="text-xs text-center text-gray-400 italic">Tip: "Always have a piece ready."</p>
-                            <button class="btn btn-blue w-full text-xs mt-1">View Hub</button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Section 5: Epic Moments -->
-                <section>
-                    <h3 class="font-bold text-lg mb-2">Epic Moments</h3>
-                    <div id="epic-moments-feed" class="flex space-x-4 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
-                        <!-- Epic moment cards injected here -->
-                    </div>
-                </section>
+                 <!-- Populated by JS -->
             </div>
 
         </main>
@@ -577,7 +474,14 @@
 
 
             // --- Page Navigation ---
+            let discoverIntervals = [];
             function showPage(pageId) {
+                // Clear any running intervals from the discover page when leaving
+                if (discoverIntervals.length > 0) {
+                    discoverIntervals.forEach(clearInterval);
+                    discoverIntervals = [];
+                }
+
                 document.querySelectorAll('.community-page').forEach(page => page.classList.add('hidden'));
                 const newPage = document.getElementById(pageId);
                 if (newPage) newPage.classList.remove('hidden');
@@ -598,7 +502,7 @@
                     document.getElementById('create-group-header-btn')?.addEventListener('click', () => openModal(modals.createGroup));
                 } else if (pageId === 'celebrate-page') {
                      headerActions.innerHTML = bellIconHTML;
-                     renderCelebrateFeed(); // FIX: Always render celebrate feed when page is shown
+                     renderCelebrateFeed(); // Always render celebrate feed when page is shown
                 } else if (pageId === 'leaderboards-page') {
                     headerActions.innerHTML = bellIconHTML;
                     initLeaderboard();
@@ -713,6 +617,7 @@
                 if (!button) return;
 
                 currentCard = button.closest('[data-post-id]');
+                if(!currentCard) return; // Exit if no parent card found
                 const username = currentCard.dataset.username;
 
                 if (button.classList.contains('like-btn')) {
@@ -770,6 +675,7 @@
             // --- Celebrate Modals Interaction ---
             document.getElementById('comment-modal').addEventListener('click', (e) => {
                 if(e.target.closest('.quick-reply-btn') || e.target.id === 'send-comment-btn') {
+                    if(!currentCard) return;
                     const countSpan = currentCard.querySelector('.comment-count');
                     countSpan.textContent = parseInt(countSpan.textContent) + 1;
                     closeModal(modals.comment);
@@ -778,6 +684,7 @@
             });
             document.getElementById('gift-modal').addEventListener('click', (e) => {
                  if(e.target.closest('.gift-option-btn')) {
+                    if(!currentCard) return;
                     const giftCountSpan = currentCard.querySelector('.gift-count-display');
                     let count = giftCountSpan.textContent.match(/\d+/) ? parseInt(giftCountSpan.textContent.match(/\d+/)[0]) : 0;
                     count++;
@@ -1057,7 +964,7 @@
                 if (userRankData) {
                     const medal = userRankData.rank === 1 ? '🥇' : userRankData.rank === 2 ? '🥈' : userRankData.rank === 3 ? '🥉' : userRankData.rank;
                     myRankHTML = `
-                         <div class="user-rank-highlight card-bg p-2 rounded-lg flex items-center justify-between">
+                         <div class="user-rank-highlight card-bg p-2 rounded-lg flex items-center justify-between mt-4">
                             <div class="flex items-center space-x-3 flex-grow">
                                 <span class="font-bold text-lg w-8 text-center">${medal}</span>
                                 <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/70"></i></div>
@@ -1071,6 +978,7 @@
                     viewMyRankBtn.classList.remove('hidden');
                 } else {
                     viewMyRankBtn.classList.add('hidden');
+                    myRankHTML = ''; // Clear my rank if not in the list
                 }
                 myRankContainer.innerHTML = myRankHTML;
             }
@@ -1103,94 +1011,124 @@
                 isLeaderboardInitialized = true;
             }
 
-            // --- DISCOVER PAGE LOGIC ---
+            // --- DISCOVER PAGE LOGIC (REVAMPED) ---
             let isDiscoverInitialized = false;
-            let discoverIntervals = [];
 
             function initDiscoverPage() {
                 if(isDiscoverInitialized) return;
 
-                renderFeaturedGroups();
-                renderEpicMoments();
+                renderDiscoverContent();
                 startEventCountdown();
                 startLiveUpdates();
 
-                document.getElementById('discover-page').addEventListener('click', e => {
-                    if (e.target.id === 'follow-player-btn') {
-                        const btn = e.target;
-                        btn.textContent = btn.textContent === 'Follow' ? 'Following' : 'Follow';
-                        btn.classList.toggle('btn-blue');
-                        btn.classList.toggle('btn-red');
-                    }
-                });
-                
                 isDiscoverInitialized = true;
             }
-
-            function clearDiscoverIntervals() {
-                discoverIntervals.forEach(clearInterval);
-                discoverIntervals = [];
-            }
             
-            function renderFeaturedGroups() {
-                const container = document.getElementById('discover-featured-groups');
-                const groups = [
-                    { name: "Rummy Champions", members: 12, active: 5, topGame: "Rummy", wins: 320, icon: "fa-trophy" },
-                    { name: "Ludo Legends", members: 42, active: 11, topGame: "Ludo", wins: 150, icon: "fa-dice" },
-                    { name: "Fantasy Fanatics", members: 2300, active: 450, topGame: "Fantasy", wins: 1280, icon: "fa-hat-wizard" },
-                    { name: "PUBG Warriors", members: 89, active: 22, topGame: "BGMI", wins: 55, icon: "fa-gamepad" }
-                ];
-                container.innerHTML = groups.map(g => `
-                    <div class="card-bg rounded-xl p-3 w-48 flex-shrink-0 space-y-2 relative overflow-hidden discover-group-card">
-                        <div class="flex items-center space-x-2">
-                             <div class="w-10 h-10 rounded-full bg-slate-700/50 flex items-center justify-center flex-shrink-0">
-                                <i class="fas ${g.icon} text-yellow-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-sm">${g.name}</h4>
-                                <p class="text-xs text-gray-400">${g.members.toLocaleString()} Members</p>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-300"><i class="fas fa-users text-green-400"></i> <span class="active-now-count">${g.active}</span> Active Now</p>
-                        <p class="text-xs text-gray-300"><i class="fas fa-crown text-yellow-400"></i> Top Game: ${g.topGame}</p>
-                        <div class="flex items-center space-x-2">
-                             <button class="btn btn-green w-full text-xs py-1">Join</button>
-                             <button class="btn btn-orange text-xs py-1 secondary-btn">Play</button>
-                        </div>
-                    </div>
-                `).join('');
-            }
+            function renderDiscoverContent() {
+                const container = document.getElementById('discover-page');
+                if(!container) return;
 
-            function renderEpicMoments() {
-                 const container = document.getElementById('epic-moments-feed');
-                 const moments = [
-                    { user: "SnehaP", group: "Ludo Legends", game: "Ludo" },
-                    { user: "RaviK", group: "Rummy Champions", game: "Rummy" },
-                    { user: "AryanJ", group: "PUBG Warriors", game: "BGMI" },
-                    { user: "MeeraG", group: "Ludo Legends", game: "Ludo" },
-                 ];
-                 container.innerHTML = moments.map(m => `
-                    <div class="card-bg rounded-xl w-32 h-48 flex-shrink-0 flex flex-col justify-between p-2 text-white bg-cover bg-center epic-moment-card" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent 50%), url('https://placehold.co/200x300/e879f9/ffffff?text=${m.game}')">
-                        <p class="text-xs font-bold">${m.user}</p>
-                        <div class="space-y-1">
-                            <button class="btn bg-black/30 w-full text-xs py-1 backdrop-blur-sm">🔥 1.2k</button>
-                            <button class="btn btn-blue w-full text-xs py-1">Try Mode</button>
+                const group = { name: "Rummy Champions", members: 12, active: 5, icon: "fa-trophy" };
+                const moments = [
+                    { user: "SnehaP", game: "Ludo" }, { user: "RaviK", game: "Rummy" },
+                    { user: "AryanJ", game: "BGMI" }, { user: "MeeraG", game: "Ludo" }, { user: "PriyaS", game: "Fantasy" }
+                ];
+                const offlineEvents = [
+                    { name: "City Gaming Night", date: "Fri, 8 PM", venue: "Downtown Cafe", game: "Ludo" },
+                    { name: "Rummy Royale", date: "Sat, 2 PM", venue: "Community Hall", game: "Rummy" },
+                    { name: "Fantasy Finals Meetup", date: "Sun, 1 PM", venue: "Sports Bar", game: "Fantasy" }
+                ];
+
+                container.innerHTML = `
+                    <!-- Section 1: Spotlight Match -->
+                    <section>
+                        <h3 class="font-bold text-lg mb-2">Spotlight Match</h3>
+                        <div class="relative rounded-xl p-4 flex flex-col justify-between h-48 bg-cover bg-center text-white shadow-lg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent 60%), url('https://placehold.co/600x200/2563eb/fde047?text=LIVE+MATCH');">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="text-xl font-bold">Weekly Ludo Tournament</h4>
+                                    <p class="text-sm font-semibold highlight-text">Prize Pool: ₹10,000</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs">Ends In:</p>
+                                    <p id="event-countdown" class="font-bold text-lg highlight-text">00:00:00</p>
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <div id="event-mini-leaderboard" class="text-xs mb-2 space-x-2">
+                                    <!-- Mini leaderboard injected here -->
+                                </div>
+                                <button class="btn btn-orange w-full">Play Now</button>
+                            </div>
                         </div>
-                        <div class="playback-bar"></div>
-                    </div>
-                 `).join('');
+                    </section>
+
+                    <!-- Section 2: Featured Group of the Day -->
+                    <section>
+                        <h3 class="font-bold text-lg mb-2">Featured Group of the Day</h3>
+                        <div class="card-bg rounded-xl p-3 flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-full bg-slate-700/50 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas ${group.icon} text-yellow-400 text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">${group.name}</h4>
+                                    <p class="text-xs text-gray-300">${group.members} Members | <span class="text-green-400 active-now-count">${group.active} Active</span></p>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="btn btn-blue text-xs px-3 py-1">Join</button>
+                                <button class="btn btn-orange text-xs px-3 py-1">Play</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 3: Epic Moments -->
+                    <section>
+                        <h3 class="font-bold text-lg mb-2">Epic Moments</h3>
+                        <div class="flex space-x-4 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
+                            ${moments.map(m => `
+                                <div class="card-bg rounded-xl w-32 h-48 flex-shrink-0 flex flex-col justify-between p-2 text-white bg-cover bg-center epic-moment-card" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent 50%), url('https://placehold.co/200x300/e879f9/ffffff?text=${m.game}')">
+                                    <p class="text-xs font-bold">${m.user}</p>
+                                    <div class="space-y-1">
+                                        <button class="btn bg-black/30 w-full text-xs py-1 backdrop-blur-sm">🔥 React</button>
+                                        <button class="btn btn-blue w-full text-xs py-1">Play Mode</button>
+                                    </div>
+                                    <div class="playback-bar"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </section>
+                    
+                    <!-- Section 4: Offline Events Near You -->
+                    <section>
+                        <h3 class="font-bold text-lg mb-2">Offline Events Near You</h3>
+                        <div class="flex space-x-4 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
+                            ${offlineEvents.map(e => `
+                                <div class="card-bg rounded-xl p-3 w-48 flex-shrink-0 space-y-2">
+                                    <h4 class="font-bold text-sm">${e.name}</h4>
+                                    <p class="text-xs text-gray-300"><i class="far fa-calendar-alt text-yellow-300 w-4"></i> ${e.date}</p>
+                                    <p class="text-xs text-gray-300"><i class="fas fa-map-marker-alt text-yellow-300 w-4"></i> ${e.venue}</p>
+                                    <p class="text-xs text-gray-300"><i class="fas fa-gamepad text-yellow-300 w-4"></i> ${e.game}</p>
+                                    <button class="btn btn-green w-full text-xs mt-2">Register & Play</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <a href="#" class="block text-center mt-2 text-yellow-300 font-semibold text-sm hover:underline">See All Events</a>
+                    </section>
+                `;
             }
             
             function startEventCountdown() {
                 const countdownEl = document.getElementById('event-countdown');
                 if (!countdownEl) return;
-                let duration = 2 * 3600 + 15 * 60 + 32; // 2h 15m 32s
+                let duration = 5 * 3600 + 10 * 60 + 59; // 5h 10m 59s
 
                 const interval = setInterval(() => {
                     duration--;
                     if (duration < 0) {
                         clearInterval(interval);
-                        countdownEl.textContent = "Started!";
+                        countdownEl.textContent = "Event Live!";
                         return;
                     }
                     const h = Math.floor(duration / 3600).toString().padStart(2, '0');
@@ -1203,29 +1141,23 @@
 
             function startLiveUpdates() {
                 const interval = setInterval(() => {
-                    // Update Featured Groups Active Count
-                    document.querySelectorAll('.active-now-count').forEach(el => {
-                        let current = parseInt(el.textContent);
-                        el.textContent = Math.max(1, current + (Math.random() > 0.5 ? 1 : -1));
-                    });
+                    // Update Featured Group Active Count
+                    const activeCountEl = document.querySelector('.active-now-count');
+                    if(activeCountEl){
+                         let current = parseInt(activeCountEl.textContent);
+                         activeCountEl.textContent = `${Math.max(1, current + (Math.random() > 0.5 ? 1 : -1))} Active`;
+                    }
                     
                     // Update Event Mini Leaderboard
                     const miniLeaderboard = document.getElementById('event-mini-leaderboard');
                     const scores = [1520, 1480, 1450];
-                    miniLeaderboard.innerHTML = `
+                    if(miniLeaderboard) {
+                        miniLeaderboard.innerHTML = `
                         <span>🥇 Shadow: ${scores[0]}</span> 
                         <span>🥈 Viper: ${scores[1]}</span> 
                         <span>🥉 Blaze: ${scores[2]}</span>`;
-
-                    // Update Game Hub Progress
-                    const rummyProgress = document.getElementById('rummy-hub-progress');
-                    const ludoProgress = document.getElementById('ludo-hub-progress');
-                    let rummyWidth = parseFloat(rummyProgress.style.width) + 0.1;
-                    if(rummyWidth > 100) rummyWidth = 75;
-                    rummyProgress.style.width = rummyWidth + '%';
-                    rummyProgress.parentElement.nextElementSibling.textContent = `Community Goal: ${Math.round(rummyWidth)}% complete!`;
-
-                }, 2000); // Update every 2 seconds for demo
+                    }
+                }, 3000); // Update every 3 seconds for demo
                 discoverIntervals.push(interval);
             }
             
