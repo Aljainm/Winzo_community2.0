@@ -27,7 +27,7 @@
         }
         .mobile-screen {
             width: 360px;
-            height: 685px; /* Increased height by 7% */
+            height: 638px; /* Changed from 685px to match 15.95:9 aspect ratio */
             margin: auto;
             display: grid;
             grid-template-rows: auto 1fr auto; /* Header, Main (scrollable), Footer (fixed) */
@@ -166,6 +166,13 @@
         }
         .epic-moment-card:hover .playback-bar { width: 100%; }
     </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.1/"
+  }
+}
+</script>
 </head>
 <body class="h-screen w-screen flex items-center justify-center winzo-bg text-white">
 
@@ -211,7 +218,7 @@
                     </div>
                 </div>
                 <div class="p-4 space-y-6">
-                    <section><h3 class="text-xl font-bold mb-3">Overview</h3><div class="grid grid-cols-2 gap-4"><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-fire text-3xl text-orange-500"></i><div><p class="font-bold text-lg">12</p><p class="text-sm text-gray-400">Win Streak</p></div></div><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-trophy text-3xl text-yellow-400"></i><div><p class="font-bold text-lg">₹58,169</p><p class="text-sm text-gray-400">Total Winnings</p></div></div><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-wand-magic-sparkles text-3xl text-pink-400"></i><div><p class="font-bold text-lg">Unicorn</p><p class="text-sm text-gray-400">Current League</p></div></div><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-dice-d6 text-3xl text-sky-400"></i><div><p class="font-bold text-lg">Rummy</p><p class="text-sm text-gray-400">Favorite Game</p></div></div></div></section>
+                    <section><h3 class="text-xl font-bold mb-3">Overview</h3><div class="grid grid-cols-2 gap-4"><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-fire text-3xl text-orange-500"></i><div><p class="font-bold text-lg">12</p><p class="text-sm text-gray-400">Win Streak</p></div></div><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-trophy text-3xl text-yellow-400"></i><div><p class="font-bold text-lg">₹58,169</p><p class="text-sm text-gray-400">Total Winnings</p></div></div><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-meteor text-3xl text-pink-400"></i><div><p class="font-bold text-lg">Unicorn</p><p class="text-sm text-gray-400">Current League</p></div></div><div class="card-bg p-3 rounded-xl flex items-center space-x-3 border border-slate-700"><i class="fas fa-dice-d6 text-3xl text-sky-400"></i><div><p class="font-bold text-lg">Rummy</p><p class="text-sm text-gray-400">Favorite Game</p></div></div></div></section>
                      <section><h3 class="text-lg font-semibold mb-3">Friend Missions</h3><button id="duo-challenge-btn" class="w-full card-bg p-4 rounded-xl shadow-md text-left hover:bg-slate-700/80 transition-colors duration-200"><div class="flex justify-between items-center"><div class="flex items-center space-x-4"><i class="fas fa-users-cog text-yellow-300 text-3xl"></i><div><h4 class="font-bold text-lg">Weekly Duo Challenge</h4><p class="text-sm text-gray-300">Team up with AnshikaV for rewards!</p></div></div><i class="fas fa-chevron-right text-gray-400"></i></div><div class="w-full bg-slate-900 rounded-full h-4 mt-3 border border-slate-600"><div class="bg-gradient-to-r from-green-400 to-blue-500 h-full rounded-full flex items-center justify-center" style="width: 80%"><span class="text-xs font-bold text-slate-900">16 / 20 Games</span></div></div></button></section>
                     <section class="mb-6"><h3 class="text-lg font-semibold mb-3">My Friends List</h3><div id="friends-list-container" class="space-y-3"><div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between" data-friend-name="AnshikaV"><div class="flex items-center space-x-3"><div class="relative"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">AnshikaV</h4><p class="text-sm text-gray-300"><i class="fas fa-crown text-yellow-400 text-xs mr-1"></i>Dragon League</p><p class="text-xs text-green-400">Playing Rummy</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div></div><div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between" data-friend-name="AryanJ"><div class="flex items-center space-x-3"><div class="relative"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div class="absolute bottom-0 right-0 w-3 h-3 bg-gray-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">AryanJ</h4><p class="text-sm text-gray-300"><i class="fas fa-shield-alt text-blue-400 text-xs mr-1"></i>Wolf League</p><p class="text-xs text-gray-500">Last active 3h ago</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div></div><div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between hidden friend-item" data-friend-name="SnehaP"><div class="flex items-center space-x-3"><div class="relative"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">SnehaP</h4><p class="text-sm text-gray-300"><i class="fas fa-star text-orange-400 text-xs mr-1"></i>Gold League</p><p class="text-xs text-green-400">Playing Ludo</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div></div><div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between hidden friend-item" data-friend-name="RaviK"><div class="flex items-center space-x-3"><div class="relative"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div class="absolute bottom-0 right-0 w-3 h-3 bg-gray-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">RaviK</h4><p class="text-sm text-gray-300"><i class="fas fa-shield-alt text-blue-400 text-xs mr-1"></i>Wolf League</p><p class="text-xs text-gray-500">Last active 1d ago</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div></div><div class="card-bg p-3 rounded-xl shadow-md flex items-center justify-between hidden friend-item" data-friend-name="MeeraG"><div class="flex items-center space-x-3"><div class="relative"><div class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/60"></i></div><div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div></div><div><h4 class="font-bold text-base">MeeraG</h4><p class="text-sm text-gray-300"><i class="fas fa-crown text-yellow-400 text-xs mr-1"></i>Dragon League</p><p class="text-xs text-green-400">Playing Snakes</p></div></div><div class="flex space-x-3 text-xl"><button class="text-yellow-300 hover:text-white transition-colors play-game-btn"><i class="fas fa-gamepad"></i></button><button class="text-yellow-300 hover:text-white transition-colors chat-btn"><i class="fas fa-comment-dots"></i></button></div></div></div><button id="show-more-friends-btn" class="w-full text-center py-2 mt-3 text-yellow-300 font-semibold rounded-lg hover:bg-slate-700/50 transition-colors">Show More <i class="fas fa-chevron-down ml-1 text-xs"></i></button></section>
                 </div>
@@ -235,7 +242,7 @@
                                     </div>
                                 </div>
                                 <div class="flex space-x-2">
-                                    <button class="btn btn-blue text-xs px-3 py-1">Enter</button>
+                                    <button class="btn btn-blue text-xs px-3 py-1 group-enter-btn">Enter</button>
                                 </div>
                             </div>
                             <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-700/50">
@@ -261,7 +268,7 @@
                                     </div>
                                 </div>
                                 <div class="flex space-x-2">
-                                    <button class="btn btn-blue text-xs px-3 py-1">Enter</button>
+                                    <button class="btn btn-blue text-xs px-3 py-1 group-enter-btn">Enter</button>
                                 </div>
                             </div>
                             <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-700/50">
@@ -382,6 +389,19 @@
                 </div>
             </div>
         </div>
+        <div id="group-manage-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
+                <h3 id="group-manage-title" class="text-xl font-bold mb-4 text-yellow-300">Manage Group</h3>
+                <div class="flex justify-between items-center mb-2">
+                    <p class="text-sm text-gray-300">Members (<span id="group-member-count-display">0</span>)</p>
+                    <button class="btn btn-blue text-xs">Add Member</button>
+                </div>
+                <div id="group-members-list" class="w-full h-48 overflow-y-auto no-scrollbar space-y-2 bg-slate-800/50 p-2 rounded-lg mb-4">
+                    <!-- Member list will be dynamically injected -->
+                </div>
+                <button id="close-group-manage-modal-btn" class="btn btn-orange w-full mt-2">Close</button>
+            </div>
+        </div>
 
         <!-- CELEBRATE PAGE MODALS -->
         <div id="likers-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
@@ -420,6 +440,33 @@
                 <button id="close-gift-modal-btn" class="btn btn-red w-full mt-2">Cancel</button>
             </div>
         </div>
+
+        <!-- NEW MODALS -->
+        <div id="my-rank-stats-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
+                 <div class="flex justify-between items-start mb-2">
+                    <h3 class="text-xl font-bold text-yellow-300">My Stats</h3>
+                    <button id="close-my-rank-stats-modal-btn" class="text-2xl text-gray-400 hover:text-white">&times;</button>
+                 </div>
+                 <div id="my-rank-stats-content" class="space-y-4">
+                    <!-- Stats will be injected here -->
+                 </div>
+            </div>
+        </div>
+        <div id="offline-event-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
+                <h3 id="offline-event-title" class="text-xl font-bold mb-2 text-yellow-300">Register for Event</h3>
+                <div id="offline-event-details" class="text-sm text-gray-300 mb-4 bg-slate-800/50 p-3 rounded-lg text-center space-y-1">
+                   <!-- Event details injected here -->
+                </div>
+                <p class="text-sm text-center mb-4">Your username <b class="highlight-text">AtharvaLokhande</b> will be registered for this event.</p>
+                <div class="flex w-full space-x-2 mt-2">
+                    <button id="close-offline-event-modal-btn" class="btn btn-red w-1/2">Cancel</button>
+                    <button id="confirm-registration-btn" class="btn btn-green w-1/2">Confirm</button>
+                </div>
+            </div>
+        </div>
+
          <!-- NOTIFICATION MODAL -->
         <div id="notifications-modal" class="hidden absolute inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
             <div class="card-bg rounded-xl shadow-lg p-6 w-full max-w-sm flex flex-col border-2 border-yellow-400/50">
@@ -574,9 +621,12 @@
                 chat: document.getElementById('chat-modal'),
                 createGroup: document.getElementById('create-group-modal'),
                 quickMatch: document.getElementById('quick-match-modal'),
+                groupManage: document.getElementById('group-manage-modal'),
                 likers: document.getElementById('likers-modal'),
                 comment: document.getElementById('comment-modal'),
                 gift: document.getElementById('gift-modal'),
+                myRankStats: document.getElementById('my-rank-stats-modal'),
+                offlineEvent: document.getElementById('offline-event-modal'),
                 notifications: document.getElementById('notifications-modal'),
             };
             const openModal = (modal) => modal?.classList.remove('hidden');
@@ -793,7 +843,7 @@
                                 <i class="fas fa-users text-cyan-400 text-3xl w-10 h-10 flex items-center justify-center bg-slate-700/50 rounded-full"></i>
                                 <div><h4 class="font-bold">${groupName}</h4><p class="text-xs text-green-400">Just created!</p></div>
                             </div>
-                            <div class="flex space-x-2"><button class="btn btn-blue text-xs px-3 py-1">Enter</button></div>
+                            <div class="flex space-x-2"><button class="btn btn-blue text-xs px-3 py-1 group-enter-btn">Enter</button></div>
                         </div>
                         <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-700/50">
                             <div class="text-left">
@@ -824,9 +874,11 @@
             }
             
             document.getElementById('my-groups-list').addEventListener('click', e => {
+                const card = e.target.closest('[data-group-name]');
+                if (!card) return;
+                const groupName = card.dataset.groupName;
+
                 if (e.target.classList.contains('quick-match-btn')) {
-                    const card = e.target.closest('[data-group-name]');
-                    const groupName = card.dataset.groupName;
                     document.getElementById('quick-match-group-name').textContent = `Quick Match: ${groupName}`;
                     document.getElementById('quick-match-members-list').innerHTML = `
                          <label class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-700 cursor-pointer">
@@ -849,8 +901,28 @@
                         `).join('')}
                     `;
                     openModal(modals.quickMatch);
+                } else if (e.target.classList.contains('group-enter-btn')) {
+                    openGroupManageModal(groupName);
                 }
             });
+
+            function openGroupManageModal(groupName) {
+                document.getElementById('group-manage-title').textContent = `Manage: ${groupName}`;
+                const members = ['You', 'AnshikaV', 'AryanJ', 'SnehaP']; // Dummy data
+                const membersListEl = document.getElementById('group-members-list');
+                membersListEl.innerHTML = members.map(member => `
+                     <div class="flex items-center justify-between bg-slate-900/50 p-2 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-user text-lg"></i>
+                            <span class="font-semibold">${member}</span>
+                            ${member === 'AnshikaV' ? '<i class="fas fa-crown text-yellow-400 text-xs ml-2" title="Admin"></i>' : ''}
+                        </div>
+                        ${member !== 'You' ? '<button class="btn btn-red text-xs px-2 py-1">Kick</button>' : ''}
+                    </div>
+                `).join('');
+                document.getElementById('group-member-count-display').textContent = members.length;
+                openModal(modals.groupManage);
+            }
 
             document.getElementById('discover-groups').addEventListener('click', e => {
                 if (e.target.classList.contains('join-group-btn')) {
@@ -991,7 +1063,7 @@
                                 <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-2xl text-yellow-300/70"></i></div>
                                 <div>
                                     <p class="font-semibold">You</p>
-                                    <p class="text-xs text-gray-300"><i class="fas fa-wand-magic-sparkles text-pink-400 text-xs mr-1"></i>${userRankData.league} League</p>
+                                    <p class="text-xs text-gray-300"><i class="fas fa-meteor text-pink-400 text-xs mr-1"></i>${userRankData.league} League</p>
                                 </div>
                             </div>
                              <p class="font-bold highlight-text text-right flex-shrink-0">₹${userRankData.winnings.toLocaleString()}</p>
@@ -1002,6 +1074,49 @@
                     myRankHTML = ''; // Clear my rank if not in the list
                 }
                 myRankContainer.innerHTML = myRankHTML;
+            }
+
+            function openMyRankStatsModal() {
+                const data = getLeaderboardData();
+                const userRankData = data.find(p => p.isUser);
+                if (!userRankData) return;
+
+                const gamesPlayed = Math.floor(userRankData.winnings * (Math.random() * 2 + 1));
+                const winRate = Math.floor(Math.random() * 30 + 60); // 60-90%
+
+                const contentEl = document.getElementById('my-rank-stats-content');
+                contentEl.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0 border-2 border-yellow-400">
+                             <img src="https://github.com/Aljainm/Winzo_community2.0/blob/main/profile.jpg?raw=true" alt="User Profile" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <div>
+                            <p class="text-xl font-bold">Atharva Lokhande</p>
+                            <p class="text-sm text-gray-300"><i class="fas fa-meteor text-pink-400 text-xs mr-1"></i>${userRankData.league} League</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-center pt-4 border-t border-slate-700/50">
+                        <div class="bg-slate-800/50 p-2 rounded-lg">
+                            <p class="text-xs text-gray-400">${leaderboardState.scope.charAt(0).toUpperCase() + leaderboardState.scope.slice(1)} Rank</p>
+                            <p class="font-bold text-xl highlight-text">#${userRankData.rank}</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-2 rounded-lg">
+                            <p class="text-xs text-gray-400">${leaderboardState.time.charAt(0).toUpperCase() + leaderboardState.time.slice(1)} Winnings</p>
+                            <p class="font-bold text-xl highlight-text">₹${userRankData.winnings.toLocaleString()}</p>
+                        </div>
+                    </div>
+                     <div class="bg-slate-800/50 p-3 rounded-lg text-left">
+                        <p class="text-sm font-semibold mb-2">Performance (${leaderboardState.time === 'daily' ? 'Today' : 'This Week'})</p>
+                        <div class="space-y-2 text-xs">
+                            <p><strong>Games Played:</strong> ${gamesPlayed}</p>
+                            <p><strong>Win Rate:</strong> ${winRate}%</p>
+                            <div class="w-full bg-slate-900 rounded-full h-3 border border-slate-600">
+                                <div class="bg-gradient-to-r from-green-400 to-blue-500 h-full rounded-full" style="width: ${winRate}%"></div>
+                            </div>
+                        </div>
+                     </div>
+                `;
+                openModal(modals.myRankStats);
             }
 
             function initLeaderboard() {
@@ -1025,7 +1140,7 @@
                 });
 
                 document.getElementById('view-my-rank-btn')?.addEventListener('click', () => {
-                    document.querySelector('.user-rank-highlight')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                   openMyRankStatsModal();
                 });
                 
                 renderLeaderboard();
@@ -1073,17 +1188,24 @@
                 // startLiveUpdates(); // This was causing confusion with player names, simplified for now
                 isDiscoverInitialized = true;
             }
+
+            function formatReacts(count) {
+                if (count >= 1000) {
+                    return `${(count / 1000).toFixed(1)}K`;
+                }
+                return count;
+            }
             
             function renderDiscoverContent() {
                 const container = document.getElementById('discover-page');
                 if(!container) return;
 
                 const moments = [
-                    { user: "SnehaP", game: "Ludo", color: "16a34a" },
-                    { user: "RaviK", game: "Rummy", color: "f59e0b" },
-                    { user: "AryanJ", game: "BGMI", color: "dc2626" },
-                    { user: "MeeraG", game: "Snakes", color: "2563eb" },
-                    { user: "PriyaS", game: "Fantasy", color: "7c3aed" }
+                    { user: "SnehaP", game: "Ludo", color: "16a34a", reacts: 1200 },
+                    { user: "RaviK", game: "Rummy", color: "f59e0b", reacts: 876 },
+                    { user: "AryanJ", game: "BGMI", color: "dc2626", reacts: 2300 },
+                    { user: "MeeraG", game: "Snakes", color: "2563eb", reacts: 540 },
+                    { user: "PriyaS", game: "Fantasy", color: "7c3aed", reacts: 1800 }
                 ];
                 const offlineEvents = [
                     { name: "City Gaming Night", date: "Fri, 8 PM", venue: "Downtown Cafe", game: "Ludo" },
@@ -1112,7 +1234,7 @@
                                     <span>🥈 Viper: 1480</span> 
                                     <span>🥉 Blaze: 1450</span>
                                 </div>
-                                <button class="btn btn-orange w-full">Play Now</button>
+                                <button id="spotlight-play-now-btn" class="btn btn-orange w-full">Play Now</button>
                             </div>
                         </div>
                     </section>
@@ -1135,7 +1257,7 @@
                             </blockquote>
                             <div class="flex items-center justify-between text-sm pt-2 border-t border-slate-700/50">
                                 <span class="text-gray-400">Favorite Game: <span class="font-semibold text-white">Rummy</span></span>
-                                <button class="btn btn-orange text-xs">Challenge</button>
+                                <button id="featured-challenge-btn" class="btn btn-orange text-xs">Challenge</button>
                             </div>
                         </div>
                     </section>
@@ -1145,11 +1267,12 @@
                         <h3 class="font-bold text-lg mb-2">Epic Moments</h3>
                         <div class="flex space-x-4 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
                             ${moments.map(m => `
-                                <div class="card-bg rounded-xl w-32 h-48 flex-shrink-0 flex flex-col justify-between p-2 text-white bg-cover bg-center epic-moment-card" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent 50%), url('https://placehold.co/200x300/${m.color}/ffffff?text=${m.game}')">
-                                    <p class="text-xs font-bold">${m.user}</p>
+                                <div class="card-bg rounded-xl w-32 h-48 flex-shrink-0 flex flex-col justify-end p-2 text-white bg-cover bg-center epic-moment-card" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent 50%), url('https://placehold.co/200x300/${m.color}/ffffff?text=${m.game}')">
+                                    <p class="text-sm font-bold mb-2">${m.user}</p>
                                     <div class="space-y-1">
-                                        <button class="btn bg-black/30 w-full text-xs py-1 backdrop-blur-sm">🔥 React</button>
-                                        <button class="btn btn-blue w-full text-xs py-1">Play Mode</button>
+                                        <button class="btn bg-black/40 w-full text-xs py-1 backdrop-blur-sm react-btn" data-react-count="${m.reacts}">
+                                            🔥 React (${formatReacts(m.reacts)})
+                                        </button>
                                     </div>
                                     <div class="playback-bar"></div>
                                 </div>
@@ -1162,12 +1285,12 @@
                         <h3 class="font-bold text-lg mb-2">Offline Events Near You</h3>
                         <div class="flex space-x-4 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
                             ${offlineEvents.map(e => `
-                                <div class="card-bg rounded-xl p-3 w-48 flex-shrink-0 space-y-2">
+                                <div class="card-bg rounded-xl p-3 w-48 flex-shrink-0 space-y-2" data-event-name="${e.name}" data-event-date="${e.date}" data-event-venue="${e.venue}" data-event-game="${e.game}">
                                     <h4 class="font-bold text-sm">${e.name}</h4>
                                     <p class="text-xs text-gray-300"><i class="far fa-calendar-alt text-yellow-300 w-4"></i> ${e.date}</p>
                                     <p class="text-xs text-gray-300"><i class="fas fa-map-marker-alt text-yellow-300 w-4"></i> ${e.venue}</p>
                                     <p class="text-xs text-gray-300"><i class="fas fa-gamepad text-yellow-300 w-4"></i> ${e.game}</p>
-                                    <button class="btn btn-green w-full text-xs mt-2">Register & Play</button>
+                                    <button class="btn btn-green w-full text-xs mt-2 register-event-btn">Register & Play</button>
                                 </div>
                             `).join('')}
                         </div>
@@ -1195,6 +1318,51 @@
                 }, 1000);
                 discoverIntervals.push(interval);
             }
+
+            document.getElementById('discover-page')?.addEventListener('click', (e) => {
+                const playBtn = e.target.closest('#spotlight-play-now-btn');
+                const challengeBtn = e.target.closest('#featured-challenge-btn');
+                const reactBtn = e.target.closest('.react-btn');
+                const registerBtn = e.target.closest('.register-event-btn');
+
+                if (playBtn) {
+                    document.getElementById('play-game-modal-title').textContent = 'Ludo Tournament';
+                    document.querySelectorAll('#game-selection .game-choice-btn').forEach(btn => {
+                        btn.classList.toggle('selected', btn.textContent === 'Ludo');
+                    });
+                    openModal(modals.play);
+                } else if (challengeBtn) {
+                    document.getElementById('play-game-modal-title').textContent = 'Challenge ShadowStrike';
+                     document.querySelectorAll('#game-selection .game-choice-btn').forEach(btn => {
+                        btn.classList.toggle('selected', btn.textContent === 'Rummy');
+                    });
+                    openModal(modals.play);
+                } else if (reactBtn) {
+                    let count = parseInt(reactBtn.dataset.reactCount, 10);
+                    count++;
+                    reactBtn.dataset.reactCount = count;
+                    reactBtn.innerHTML = `🔥 React (${formatReacts(count)})`;
+                } else if (registerBtn) {
+                    const card = registerBtn.closest('[data-event-name]');
+                    if (card) {
+                        const { eventName, eventDate, eventVenue, eventGame } = card.dataset;
+                        document.getElementById('offline-event-title').textContent = eventName;
+                        document.getElementById('offline-event-details').innerHTML = `
+                            <p><i class="far fa-calendar-alt text-yellow-300 w-4"></i> ${eventDate}</p>
+                            <p><i class="fas fa-map-marker-alt text-yellow-300 w-4"></i> ${eventVenue}</p>
+                            <p><i class="fas fa-gamepad text-yellow-300 w-4"></i> ${eventGame}</p>
+                        `;
+                        openModal(modals.offlineEvent);
+                    }
+                }
+            });
+
+            document.getElementById('offline-event-modal')?.addEventListener('click', e => {
+                if(e.target.id === 'confirm-registration-btn') {
+                    alert('Registration confirmed! See you there!');
+                    closeModal(modals.offlineEvent);
+                }
+            });
             
             showPage('friends-page'); // Initial page load
         });
